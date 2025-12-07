@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Коллаж воспоминаний</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background-color: #fff8f0;
+            color: #333;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* Новогодние элементы */
+        .new-year-decoration {
+            position: fixed;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.1;
+        }
+        
+        .decoration-1 {
+            top: 10%;
+            left: 5%;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, #ff6b6b 0%, transparent 70%);
+        }
+        
+        .decoration-2 {
+            top: 20%;
+            right: 8%;
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle, #4ecdc4 0%, transparent 70%);
+        }
+        
+        .decoration-3 {
+            bottom: 15%;
+            left: 10%;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, #ffe66d 0%, transparent 70%);
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 30px 20px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        header {
+            text-align: center;
+            padding: 40px 0 50px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            margin-bottom: 40px;
+            border: 2px dashed #ff9a8b;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(255, 154, 139, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(255, 230, 109, 0.1) 0%, transparent 50%);
+            z-index: 1;
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .year {
+            font-size: 6rem;
+            font-weight: 900;
+            color: transparent;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #ffe66d, #ff9a8b);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            animation: gradient 8s ease infinite;
+            margin-bottom: 10px;
+        }
+        
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .new-year-title {
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            color: #333;
+            font-weight: 300;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+        
+        .subtitle {
+            font-size: 1.4rem;
+            color: #666;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        /* Стиль коллажа */
+        .collage-container {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            grid-template-rows: repeat(10, 80px);
+            gap: 15px;
+            margin-bottom: 60px;
+            position: relative;
+        }
+        
+        .memory-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            border: 3px solid transparent;
+        }
+        
+        .memory-item:hover {
+            transform: scale(1.03);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            border-color: #ff9a8b;
+            z-index: 10;
+        }
+        
+        .memory-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .memory-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            color: white;
+            padding: 20px 15px 15px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .memory-item:hover .memory-overlay {
+            transform: translateY(0);
+        }
+        
+        .memory-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .memory-date {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .memory-text {
+            font-size: 0.95rem;
+            line-height: 1.4;
+            margin-top: 8px;
+            opacity: 0;
+            transition: opacity 0.3s ease 0.1s;
+            max-height: 0;
+            overflow: hidden;
+        }
+        
+        .memory-item:hover .memory-text {
+            opacity: 1;
+            max-height: 100px;
+        }
+        
+        /* Расположение элементов коллажа */
+        .item-1 { grid-column: 1 / 5; grid-row: 1 / 4; }
+        .item-2 { grid-column: 5 / 9; grid-row: 1 / 3; }
+        .item-3 { grid-column: 9 / 13; grid-row: 1 / 5; }
+        .item-4 { grid-column: 1 / 4; grid-row: 4 / 7; }
+        .item-5 { grid-column: 4 / 7; grid-row: 4 / 6; }
+        .item-6 { grid-column: 7 / 10; grid-row: 3 / 6; }
+        .item-7 { grid-column: 10 / 13; grid-row: 5 / 8; }
+        .item-8 { grid-column: 1 / 6; grid-row: 7 / 10; }
+        .item-9 { grid-column: 6 / 10; grid-row: 6 / 9; }
+        .item-10 { grid-column: 10 / 13; grid-row: 8 / 11; }
+        
+        /* Фейерверк кнопка */
+        .fireworks-section {
+            text-align: center;
+            margin: 60px 0;
+        }
+        
+        .fireworks-btn {
+            background: linear-gradient(45deg, #ff6b6b, #ff9a8b);
+            border: none;
+            padding: 18px 45px;
+            font-size: 1.3rem;
+            color: white;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            letter-spacing: 1px;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+        }
+        
+        .fireworks-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(255, 107, 107, 0.4);
+            background: linear-gradient(45deg, #ff9a8b, #ff6b6b);
+        }
+        
+        /* Пожелания */
+        .wishes-section {
+            background-color: white;
+            padding: 50px;
+            border-radius: 20px;
+            margin-top: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            border: 2px dashed #4ecdc4;
+            text-align: center;
+        }
+        
+        .wishes-title {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 30px;
+            font-weight: 300;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .wishes-title:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(to right, #ff6b6b, #4ecdc4);
+        }
+        
+        .wishes-text {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 25px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .new-year-wish {
+            font-size: 2.2rem;
+            color: #ff6b6b;
+            margin-top: 40px;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+        
+        .signature {
+            text-align: center;
+            font-size: 1.3rem;
+            color: #666;
+            margin-top: 40px;
+            font-style: italic;
+            padding-top: 30px;
+            border-top: 1px solid #eee;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 40px 0 30px;
+            color: #888;
+            margin-top: 60px;
+            font-size: 0.95rem;
+        }
+        
+        /* Модальное окно */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            max-width: 90%;
+            max-height: 90%;
+            position: relative;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        }
+        
+        .modal-img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .modal-info {
+            padding: 25px;
+            background: white;
+        }
+        
+        .modal-title {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .modal-date {
+            color: #ff6b6b;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .modal-text {
+            line-height: 1.6;
+            color: #555;
+            font-size: 1.1rem;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            color: white;
+            font-size: 2.5rem;
+            cursor: pointer;
+            background: rgba(0, 0, 0, 0.5);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 101;
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 1200px) {
+            .collage-container {
+                grid-template-rows: repeat(10, 70px);
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .collage-container {
+                grid-template-rows: repeat(10, 60px);
+                gap: 12px;
+            }
+            
+            .year {
+                font-size: 5rem;
+            }
+            
+            .new-year-title {
+                font-size: 2.2rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .collage-container {
+                display: flex;
+                flex-direction: column;
+                gap: 25px;
+            }
+            
+            .memory-item {
+                height: 300px;
+            }
+            
+            .year {
+                font-size: 4rem;
+            }
+            
+            .new-year-title {
+                font-size: 1.8rem;
+            }
+            
+            .wishes-section {
+                padding: 30px 20px;
+            }
+            
+            .modal-img {
+                height: 300px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .year {
+                font-size: 3.5rem;
+            }
+            
+            .new-year-title {
+                font-size: 1.5rem;
+                letter-spacing: 2px;
+            }
+            
+            .subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .memory-item {
+                height: 250px;
+            }
+            
+            .modal-img {
+                height: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Новогодние украшения -->
+    <div class="new-year-decoration decoration-1"></div>
+    <div class="new-year-decoration decoration-2"></div>
+    <div class="new-year-decoration decoration-3"></div>
+    
+    <div class="container">
+        <header>
+            <div class="header-bg"></div>
+            <div class="header-content">
+                <div class="year">2024</div>
+                <h1 class="new-year-title">Коллаж воспоминаний</h1>
+                <p class="subtitle">10 самых ярких моментов уходящего года, которые останутся с нами навсегда</p>
+            </div>
+        </header>
+        
+        <section class="collage-section">
+            <div class="collage-container">
+                <!-- Момент 1 -->
+                <div class="memory-item item-1" data-id="1">
+                    <!-- ЗАМЕНИТЕ НА ВАШЕ ФОТО -->
+                    <img src="images/1.jpeg" class="memory-img" alt="Новогодняя ночь">
+                    <div class="memory-overlay">
+                        <div class="memory-title">Новогодняя ночь</div>
+                        <div class="memory-date">ЯНВАРЬ</div>
+                        <div class="memory-text">Встреча Нового года в кругу семьи, бой курантов и первые пожелания.</div>
+                    </div>
+                </div>
+                
+                <!-- Момент 2 -->
+                <div class="memory-item item-2" data-id="2">
+                    <!-- ЗАМЕНИТЕ НА ВАШЕ ФОТО -->
+                    <img src="images/2.jpeg" class="memory-img" alt="Зимняя прогулка">
+                    <div class="memory-overlay">
+                        <div class="memory-title">Зимняя прогулка</div>
+                        <div class="memory-date">ФЕВРАЛЬ</div>
+                        <div class="memory-text">Морозный солнечный день, хрустящий снег и горячий чай из термоса.</div>
+                    </div>
+                </div>
+                
+                <!-- Момент 3 -->
+                <div class="memory-item item-3" data-id="3">
+                    <!-- ЗАМЕНИТЕ НА ВАШЕ ФОТО -->
+                    <img src="images/3.jpeg" class="memory-img" alt="Первые цветы">
+                    <div class="memory-overlay">
+                        <div class="memory-title">Первые цветы</div>
+                        <div class="memory-date">МАРТ</div>
+                        <div class="memory-text">Появление первых подснежников и ощущение приближающейся весны.</div>
+                    </div>
+                </div>
+                
+                <!-- Момент 4 -->
+                <div class="memory-item item-4" data-id="4">
+                    <!-- ЗАМЕНИТЕ НА ВАШЕ ФОТО -->
+                    <img src="images/4.png" class="memory-img" alt="Пасхальное воскресенье">
+                    <div class="memory-overlay">
+                        <div class="memory-title">Пасхальное воскресенье</div>
+                        <div class="memory-date">АПРЕЛЬ</div>
+                        <div class="memory-text">Светлый праздник в кругу семьи, крашеные яйца и пасхальный кулич.</div>
+                    </div>
+                </div>
+                
+                <!-- Момент 5 -->
+                <div class="memory-item item-5" data-id="5">
+                    <!-- ЗАМЕНИТЕ НА ВАШЕ ФОТО -->
+                    <img src="images/5.jpeg" class="memory-img" alt="Майские праздники">
+                    <div class="memory-overlay">
+                        <div class="memory-title">Майские праздники</div>
+                        <div class="memory-date">МАЙ</div>
+                        <div class="memory-text">Пикники на природе, первые шашлыки и долгожданное тепло.</div>
+                    </div>
+                </div>
+                
+                <!-- Момент 6 -->
+                <div class="memory-item item-6" data-id="6">
+                    <!-- ЗАМЕНИТЕ НА ВАШЕ ФОТО -->
+                    <img src="images/6.jpeg" class="memory-img" alt="Летний отдых">
+                    <div class="memory-overlay">
+                        <div class="memory-title">Летний отдых</div>
+                        <div class="memory-date">ИЮНЬ</div>
+                        <div class="memory-text">Отпуск на море, тёплый песок и шум прибоя вечером.</div>
+                    </div>
+                </div>
+                
+                <!-- Момент 7 -->
+                <div class="memory-item item-7" data-id="7">
+                    <!-- ЗАМЕНИТЕ НА ВАШЕ ФОТО -->
+                    <img src="images/7.jpeg" class="memory-img" alt="День рождения">
+                    <div class="memory-overlay">
+                        <div class="memory-title">День рождения</div>
+                        <div class="memory-date">ИЮЛЬ</div>
+                        <div class="memory-text">Праздник с друзьями, подарки и торт со свечами.</div>
+                    </div>
+                </div>
+                
+                <!-- Момент 8 -->
+                <div class="memory-item item-8" data-id="8">
+                    <!-- ЗАМЕНИТЕ НА ВАШЕ ФОТО -->
+                    <img src="images/8.jpeg" class="memory-img" alt="Осенний поход">
+                    <div class="memory-overlay">
+                        <div class="memory-title">Осенний поход</div>
+                        <div class="memory-date">СЕНТЯБРЬ</div>
+                        <div class="memory-text">Прогулка по золотому лесу, сбор грибов и осенних листьев.</div>
+                    </div>
+                </div>
+                
+                <!-- Момент 9 -->
+                <div class="memory-item item-9" data-id="9">
+                    <!-- ЗАМЕНИТЕ НА ВАШЕ ФОТО -->
+                    <img src="images/9.jpeg" class="memory-img" alt="Хэллоуин">
+                    <div class="memory-overlay">
+                        <div class="memory-title">Хэллоуин</div>
+                        <div class="memory-date">ОКТЯБРЬ</div>
+                        <div class="memory-text">Весёлая вечеринка с костюмами, тыквами и атмосферой праздника.</div>
+                    </div>
+                </div>
+                
+                <!-- Момент 10 -->
+                <div class="memory-item item-10" data-id="10">
+                    <!-- ЗАМЕНИТЕ НА ВАШЕ ФОТО -->
+                    <img src="images/10.jpeg" class="memory-img" alt="Предновогодняя суета">
+                    <div class="memory-overlay">
+                        <div class="memory-title">Предновогодняя суета</div>
+                        <div class="memory-date">ДЕКАБРЬ</div>
+                        <div class="memory-text">Подготовка к празднику, украшение ёлки и предвкушение чуда.</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 30px; color: #666; font-size: 0.95rem;">
+                <p><i>Наведите на любой момент, чтобы увидеть описание. Нажмите для увеличения.</i></p>
+            </div>
+        </section>
+        
+        <section class="fireworks-section">
+            <button class="fireworks-btn" id="fireworksBtn">
+                <i class="fas fa-fireworks"></i> Запустить новогодний салют
+            </button>
+        </section>
+        
+        <section class="wishes-section">
+            <h2 class="wishes-title">С наступающим Новым годом!</h2>
+            <div class="wishes-text">
+                Этот год подарил нам множество ярких моментов, которые теперь стали частью нашей истории. 
+                Каждое воспоминание — как кусочек пазла, складывающийся в картину целого года.
+            </div>
+            <div class="wishes-text">
+                Пусть новый 2024 год принесёт ещё больше радостных событий, тёплых встреч и незабываемых впечатлений. 
+                Желаю, чтобы каждый день был наполнен счастьем, вдохновением и любовью близких людей.
+            </div>
+            <div class="wishes-text">
+                Пусть сбудутся все ваши мечты, реализуются самые смелые планы, а здоровье и удача будут постоянными спутниками!
+            </div>
+            <div class="new-year-wish">С Новым 2024 Годом!</div>
+            <div class="signature">С любовью и теплом ❤️</div>
+        </section>
+        
+        <footer>
+            <p>Коллаж самых ярких моментов 2023 года</p>
+            <p>© Создано с теплом и воспоминаниями</p>
+        </footer>
+    </div>
+    
+    <!-- Модальное окно для просмотра фото -->
+    <div class="modal" id="photoModal">
+        <div class="modal-content">
+            <span class="modal-close" id="modalClose">&times;</span>
+            <img class="modal-img" id="modalImg" src="" alt="Увеличенное фото">
+            <div class="modal-info">
+                <h2 class="modal-title" id="modalTitle">Новогодняя ночь</h2>
+                <div class="modal-date" id="modalDate">ЯНВАРЬ</div>
+                <div class="modal-text" id="modalText">Встреча Нового года в кругу семьи, бой курантов и первые пожелания.</div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Модальное окно для фото
+        function setupPhotoModal() {
+            const memoryItems = document.querySelectorAll('.memory-item');
+            const modal = document.getElementById('photoModal');
+            const modalImg = document.getElementById('modalImg');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalDate = document.getElementById('modalDate');
+            const modalText = document.getElementById('modalText');
+            const modalClose = document.getElementById('modalClose');
+            
+            memoryItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const id = item.getAttribute('data-id');
+                    
+                    // Получаем данные из элемента
+                    const img = item.querySelector('.memory-img');
+                    const title = item.querySelector('.memory-title').textContent;
+                    const date = item.querySelector('.memory-date').textContent;
+                    const text = item.querySelector('.memory-text').textContent;
+                    
+                    // Устанавливаем данные в модальное окно
+                    modalImg.src = img.src;
+                    modalImg.alt = img.alt;
+                    modalTitle.textContent = title;
+                    modalDate.textContent = date;
+                    modalText.textContent = text;
+                    
+                    modal.style.display = 'flex';
+                });
+            });
+            
+            modalClose.addEventListener('click', () => {
+                modal.style.display = 'none';
+            });
+            
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        }
+        
+        // Фейерверк
+        function createFireworks() {
+            const colors = ['#ff6b6b', '#4ecdc4', '#ffe66d', '#ff9a8b', '#9d65c9'];
+            
+            // Создаем несколько "взрывов" фейерверка
+            for (let i = 0; i < 25; i++) {
+                setTimeout(() => {
+                    // Случайная позиция
+                    const x = Math.random() * 90 + 5;
+                    const y = Math.random() * 80 + 10;
+                    const color = colors[Math.floor(Math.random() * colors.length)];
+                    
+                    // Создаем центральную точку
+                    const center = document.createElement('div');
+                    center.style.position = 'fixed';
+                    center.style.width = '6px';
+                    center.style.height = '6px';
+                    center.style.borderRadius = '50%';
+                    center.style.backgroundColor = color;
+                    center.style.left = `${x}%`;
+                    center.style.top = `${y}%`;
+                    center.style.zIndex = '50';
+                    center.style.pointerEvents = 'none';
+                    center.style.boxShadow = `0 0 10px 5px ${color}`;
+                    
+                    document.body.appendChild(center);
+                    
+                    // Создаем частицы
+                    const particleCount = 30;
+                    for (let j = 0; j < particleCount; j++) {
+                        const particle = document.createElement('div');
+                        particle.style.position = 'fixed';
+                        particle.style.width = '4px';
+                        particle.style.height = '4px';
+                        particle.style.borderRadius = '50%';
+                        particle.style.backgroundColor = color;
+                        particle.style.left = `${x}%`;
+                        particle.style.top = `${y}%`;
+                        particle.style.zIndex = '50';
+                        particle.style.pointerEvents = 'none';
+                        particle.style.boxShadow = `0 0 5px 2px ${color}`;
+                        
+                        document.body.appendChild(particle);
+                        
+                        // Случайное направление разлета
+                        const angle = Math.random() * Math.PI * 2;
+                        const speed = Math.random() * 3 + 2;
+                        const vx = Math.cos(angle) * speed;
+                        const vy = Math.sin(angle) * speed;
+                        
+                        // Анимация
+                        let posX = x;
+                        let posY = y;
+                        let opacity = 1;
+                        
+                        const particleAnimation = setInterval(() => {
+                            posX += vx;
+                            posY += vy;
+                            opacity -= 0.03;
+                            
+                            particle.style.left = `${posX}%`;
+                            particle.style.top = `${posY}%`;
+                            particle.style.opacity = opacity;
+                            
+                            if (opacity <= 0) {
+                                clearInterval(particleAnimation);
+                                particle.remove();
+                            }
+                        }, 30);
+                    }
+                    
+                    // Удаление центральной точки
+                    setTimeout(() => {
+                        center.remove();
+                    }, 800);
+                    
+                }, i * 150);
+            }
+        }
+        
+        // Инициализация при загрузке страницы
+        document.addEventListener('DOMContentLoaded', () => {
+            setupPhotoModal();
+            
+            // Обработчик для кнопки фейерверка
+            document.getElementById('fireworksBtn').addEventListener('click', createFireworks);
+            
+            // Анимация появления элементов коллажа
+            const items = document.querySelectorAll('.memory-item');
+            items.forEach((item, index) => {
+                item.style.opacity = '0';
+                item.style.transform = 'scale(0.8)';
+                
+                setTimeout(() => {
+                    item.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                    item.style.opacity = '1';
+                    item.style.transform = 'scale(1)';
+                }, 100 + index * 100);
+            });
+            
+            // Новогодний звук
+            function playNewYearSound() {
+                // Можно добавить звуковой эффект
+                console.log("🎆 С Новым годом! 🎆");
+            }
+            
+            // Запускаем звук при нажатии на салют
+            document.getElementById('fireworksBtn').addEventListener('click', playNewYearSound);
+            
+            // Проверка загрузки изображений
+            console.log("Проверка изображений:");
+            const images = document.querySelectorAll('.memory-img');
+            images.forEach((img, index) => {
+                img.onload = function() {
+                    console.log(`Изображение ${index+1} загружено: ${img.src}`);
+                };
+                img.onerror = function() {
+                    console.error(`Ошибка загрузки изображения ${index+1}: ${img.src}`);
+                    console.log("Убедитесь, что:");
+                    console.log("1. Файлы находятся в папке 'images'");
+                    console.log("2. Имена файлов: 1.jpeg, 2.jpeg и т.д.");
+                    console.log("3. Папка 'images' находится рядом с HTML файлом");
+                };
+            });
+        });
+    </script>
+</body>
+</html>
