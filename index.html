@@ -16,12 +16,9 @@
             --primary: #ff3366;
             --secondary: #33ccff;
             --accent: #ffcc00;
-            --dark: #ffffff;
-            --light: #0a0a14;
-            --gray: #eaeaea;
-            --card-bg: #ffffff;
-            --shadow: rgba(0, 0, 0, 0.1);
-            --shadow-hover: rgba(0, 0, 0, 0.15);
+            --dark: #0a0a14;
+            --light: #ffffff;
+            --gray: #2a2a3a;
         }
         
         body {
@@ -31,25 +28,6 @@
             min-height: 100vh;
             overflow-x: hidden;
             position: relative;
-            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
-        }
-        
-        .floating-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-            overflow: hidden;
-        }
-        
-        .floating-particle {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(255, 51, 102, 0.1);
-            filter: blur(2px);
         }
         
         .container {
@@ -79,13 +57,13 @@
             max-height: 500px;
             background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
             filter: blur(80px);
-            opacity: 0.08;
+            opacity: 0.15;
             animation: pulse 8s ease-in-out infinite;
         }
         
         @keyframes pulse {
-            0%, 100% { opacity: 0.05; transform: translate(-50%, -50%) scale(1); }
-            50% { opacity: 0.12; transform: translate(-50%, -50%) scale(1.1); }
+            0%, 100% { opacity: 0.1; transform: translate(-50%, -50%) scale(1); }
+            50% { opacity: 0.2; transform: translate(-50%, -50%) scale(1.1); }
         }
         
         .year {
@@ -114,7 +92,6 @@
             opacity: 0;
             animation: slideUp 1s ease 0.5s forwards;
             letter-spacing: 2px;
-            color: #333;
         }
         
         @keyframes slideUp {
@@ -124,7 +101,7 @@
         
         .subtitle {
             font-size: clamp(1rem, 3vw, 1.4rem);
-            color: #666;
+            color: #aaa;
             max-width: 600px;
             margin: 0 auto 30px;
             line-height: 1.6;
@@ -132,181 +109,53 @@
             animation: slideUp 1s ease 0.8s forwards;
         }
         
-        /* Коллаж с летающими объемными карточками */
+        /* Коллаж с крутыми карточками - теперь всегда анимированы */
         .memories-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 25px;
             margin-bottom: 60px;
             padding: 20px;
-            position: relative;
-            z-index: 5;
         }
         
         .memory-card {
-            background: var(--card-bg);
+            background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(10px);
             border-radius: 20px;
             overflow: hidden;
             position: relative;
-            border: none;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             cursor: pointer;
-            box-shadow: 
-                0 10px 30px var(--shadow),
-                0 1px 8px rgba(0,0,0,0.05),
-                0 0 0 1px rgba(255,255,255,0.9);
+            animation: floatCard 6s ease-in-out infinite;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             opacity: 1;
             transform: translateY(0);
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
-                        box-shadow 0.4s ease,
-                        z-index 0.4s;
-            z-index: 1;
-            /* 3D эффекты для объема */
-            transform-style: preserve-3d;
-            perspective: 1000px;
         }
         
-        /* Уникальные анимации для каждой карточки - летают хаотично */
-        .memory-card.flying {
-            position: absolute;
-            animation-duration: 20s;
-            animation-iteration-count: infinite;
-            animation-timing-function: ease-in-out;
-            animation-direction: alternate;
-        }
+        /* Разные анимации для каждой карточки */
+        .memory-card:nth-child(1) { animation-delay: 0s; }
+        .memory-card:nth-child(2) { animation-delay: 0.5s; }
+        .memory-card:nth-child(3) { animation-delay: 1s; }
+        .memory-card:nth-child(4) { animation-delay: 1.5s; }
+        .memory-card:nth-child(5) { animation-delay: 2s; }
+        .memory-card:nth-child(6) { animation-delay: 2.5s; }
+        .memory-card:nth-child(7) { animation-delay: 3s; }
+        .memory-card:nth-child(8) { animation-delay: 3.5s; }
+        .memory-card:nth-child(9) { animation-delay: 4s; }
+        .memory-card:nth-child(10) { animation-delay: 4.5s; }
         
-        /* Разные траектории для каждой карточки */
-        .memory-card:nth-child(1).flying { animation-name: flyPath1; top: 5%; left: 5%; }
-        .memory-card:nth-child(2).flying { animation-name: flyPath2; top: 10%; left: 15%; }
-        .memory-card:nth-child(3).flying { animation-name: flyPath3; top: 15%; left: 25%; }
-        .memory-card:nth-child(4).flying { animation-name: flyPath4; top: 20%; left: 35%; }
-        .memory-card:nth-child(5).flying { animation-name: flyPath5; top: 25%; left: 45%; }
-        .memory-card:nth-child(6).flying { animation-name: flyPath6; top: 30%; left: 55%; }
-        .memory-card:nth-child(7).flying { animation-name: flyPath7; top: 35%; left: 65%; }
-        .memory-card:nth-child(8).flying { animation-name: flyPath8; top: 40%; left: 75%; }
-        .memory-card:nth-child(9).flying { animation-name: flyPath9; top: 45%; left: 85%; }
-        .memory-card:nth-child(10).flying { animation-name: flyPath10; top: 50%; left: 5%; }
-        
-        /* Сложные хаотичные траектории */
-        @keyframes flyPath1 {
-            0% { transform: translate(0, 0) rotate(0deg) scale(1); }
-            25% { transform: translate(30vw, 10vh) rotate(5deg) scale(1.05); }
-            50% { transform: translate(15vw, 25vh) rotate(-3deg) scale(0.95); }
-            75% { transform: translate(25vw, 15vh) rotate(2deg) scale(1.03); }
-            100% { transform: translate(5vw, 20vh) rotate(-1deg) scale(1); }
-        }
-        
-        @keyframes flyPath2 {
-            0% { transform: translate(0, 0) rotate(0deg) scale(1); }
-            20% { transform: translate(-20vw, 15vh) rotate(-4deg) scale(1.07); }
-            40% { transform: translate(10vw, -10vh) rotate(3deg) scale(0.93); }
-            60% { transform: translate(-15vw, 20vh) rotate(-6deg) scale(1.1); }
-            80% { transform: translate(25vw, 5vh) rotate(2deg) scale(0.97); }
-            100% { transform: translate(-5vw, 10vh) rotate(-2deg) scale(1); }
-        }
-        
-        @keyframes flyPath3 {
-            0% { transform: translate(0, 0) rotate(0deg) scale(1); }
-            33% { transform: translate(20vw, -15vh) rotate(8deg) scale(1.12); }
-            66% { transform: translate(-25vw, 10vh) rotate(-5deg) scale(0.9); }
-            100% { transform: translate(15vw, 5vh) rotate(3deg) scale(1); }
-        }
-        
-        @keyframes flyPath4 {
-            0% { transform: translate(0, 0) rotate(0deg) scale(1); }
-            15% { transform: translate(-10vw, 25vh) rotate(-7deg) scale(1.08); }
-            30% { transform: translate(30vw, -5vh) rotate(4deg) scale(0.92); }
-            45% { transform: translate(-20vw, 15vh) rotate(-3deg) scale(1.15); }
-            60% { transform: translate(25vw, 20vh) rotate(6deg) scale(0.85); }
-            75% { transform: translate(-15vw, -10vh) rotate(-2deg) scale(1.05); }
-            90% { transform: translate(10vw, 10vh) rotate(5deg) scale(0.95); }
-            100% { transform: translate(-5vw, 5vh) rotate(-1deg) scale(1); }
-        }
-        
-        @keyframes flyPath5 {
-            0% { transform: translate(0, 0) rotate(0deg) scale(1); }
-            25% { transform: translate(40vw, 5vh) rotate(10deg) scale(1.2); }
-            50% { transform: translate(-35vw, 15vh) rotate(-8deg) scale(0.8); }
-            75% { transform: translate(20vw, -20vh) rotate(6deg) scale(1.1); }
-            100% { transform: translate(-10vw, 10vh) rotate(-4deg) scale(1); }
-        }
-        
-        /* Добавим остальные пути для разнообразия */
-        @keyframes flyPath6 {
-            0% { transform: translate(0, 0) rotate(0deg) scale(1); }
-            20% { transform: translate(-25vw, -10vh) rotate(-5deg) scale(1.05); }
-            40% { transform: translate(15vw, 30vh) rotate(7deg) scale(0.9); }
-            60% { transform: translate(30vw, -15vh) rotate(-3deg) scale(1.15); }
-            80% { transform: translate(-20vw, 25vh) rotate(8deg) scale(0.85); }
-            100% { transform: translate(10vw, 5vh) rotate(-2deg) scale(1); }
-        }
-        
-        @keyframes flyPath7 {
-            0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
-            33% { transform: translate(35vw, 20vh) rotate(12deg) scale(1.25); }
-            66% { transform: translate(-30vw, -25vh) rotate(-10deg) scale(0.75); }
-        }
-        
-        @keyframes flyPath8 {
-            0% { transform: translate(0, 0) rotate(0deg) scale(1); }
-            25% { transform: translate(-15vw, 40vh) rotate(-15deg) scale(1.3); }
-            50% { transform: translate(40vw, -20vh) rotate(10deg) scale(0.7); }
-            75% { transform: translate(-30vw, 30vh) rotate(-8deg) scale(1.2); }
-            100% { transform: translate(20vw, 10vh) rotate(5deg) scale(1); }
-        }
-        
-        @keyframes flyPath9 {
-            0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
-            20% { transform: translate(45vw, 10vh) rotate(20deg) scale(1.4); }
-            40% { transform: translate(-40vw, 35vh) rotate(-12deg) scale(0.6); }
-            60% { transform: translate(25vw, -30vh) rotate(15deg) scale(1.35); }
-            80% { transform: translate(-35vw, 15vh) rotate(-10deg) scale(0.65); }
-        }
-        
-        @keyframes flyPath10 {
-            0% { transform: translate(0, 0) rotate(0deg) scale(1); }
-            30% { transform: translate(50vw, 25vh) rotate(25deg) scale(1.5); }
-            60% { transform: translate(-45vw, -35vh) rotate(-20deg) scale(0.5); }
-            90% { transform: translate(40vw, 30vh) rotate(18deg) scale(1.45); }
-            100% { transform: translate(-10vw, 15vh) rotate(-5deg) scale(1); }
+        @keyframes floatCard {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-10px) rotate(0.5deg); }
+            50% { transform: translateY(-5px) rotate(-0.5deg); }
+            75% { transform: translateY(-8px) rotate(0.3deg); }
         }
         
         .memory-card:hover {
-            transform: translateY(-20px) scale(1.08) rotateY(10deg) !important;
-            box-shadow: 
-                0 25px 60px var(--shadow-hover),
-                0 10px 30px rgba(255, 51, 102, 0.2),
-                0 0 0 1px rgba(255, 255, 255, 0.9);
-            z-index: 100;
-        }
-        
-        /* Объемный эффект с помощью теней */
-        .memory-card:before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 100%;
-            border-radius: 20px;
-            background: linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%);
-            z-index: 1;
-            pointer-events: none;
-            opacity: 0.5;
-        }
-        
-        /* Глянцевый эффект */
-        .memory-card:after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 30%;
-            background: linear-gradient(to bottom, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0) 100%);
-            border-radius: 20px 20px 0 0;
-            z-index: 2;
-            pointer-events: none;
+            animation: none;
+            transform: translateY(-15px) scale(1.05) !important;
+            box-shadow: 0 25px 50px rgba(255, 51, 102, 0.3);
+            border-color: var(--primary);
         }
         
         .card-bg {
@@ -315,7 +164,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(45deg, transparent, rgba(255, 51, 102, 0.05), transparent);
+            background: linear-gradient(45deg, transparent, rgba(255, 51, 102, 0.1), transparent);
             z-index: 1;
             opacity: 0;
             transition: opacity 0.5s ease;
@@ -332,20 +181,18 @@
             object-fit: cover; /* Обрезаем миниатюры */
             display: block;
             transition: all 0.6s ease;
-            filter: brightness(0.95) saturate(1.1);
-            position: relative;
-            z-index: 3;
+            filter: grayscale(0.2) contrast(1.1);
         }
         
         .memory-card:hover .card-image {
-            transform: scale(1.08);
-            filter: brightness(1.05) saturate(1.2);
+            transform: scale(1.05);
+            filter: grayscale(0) contrast(1.2);
         }
         
         .card-content {
             padding: 25px;
             position: relative;
-            z-index: 4;
+            z-index: 2;
         }
         
         .card-header {
@@ -358,9 +205,8 @@
         .card-title {
             font-size: 1.4rem;
             font-weight: 700;
-            color: #222;
+            color: var(--light);
             margin: 0;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.05);
         }
         
         .card-icon {
@@ -368,33 +214,30 @@
             color: var(--primary);
             opacity: 0.7;
             transition: all 0.3s ease;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
         
         .memory-card:hover .card-icon {
             opacity: 1;
-            transform: translateX(5px) scale(1.2);
+            transform: translateX(5px);
         }
         
         .card-text {
-            color: #555;
+            color: #bbb;
             line-height: 1.6;
             font-size: 1rem;
             margin-bottom: 10px;
             opacity: 0.9;
         }
 
-        /* СЕКЦИЯ: Факты в стиле мессенджера */
+        /* НОВАЯ СЕКЦИЯ: Факты в стиле мессенджера */
         .facts-section {
-            background: rgba(255, 255, 255, 0.7);
+            background: rgba(20, 20, 30, 0.9);
             border-radius: 25px;
             padding: 40px;
             margin: 40px 0;
-            border: 1px solid rgba(255, 255, 255, 0.9);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             position: relative;
             overflow: hidden;
-            backdrop-filter: blur(10px);
         }
 
         .facts-glow {
@@ -403,7 +246,7 @@
             left: -150px;
             width: 400px;
             height: 400px;
-            background: radial-gradient(circle, rgba(255, 204, 0, 0.05) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(255, 204, 0, 0.1) 0%, transparent 70%);
             filter: blur(60px);
             opacity: 0.3;
             z-index: 0;
@@ -416,7 +259,7 @@
 
         .section-title {
             font-size: clamp(2rem, 5vw, 2.8rem);
-            color: #222;
+            color: var(--light);
             margin-bottom: 40px;
             text-align: center;
             font-weight: 700;
@@ -444,19 +287,19 @@
         .chat-container {
             max-width: 800px;
             margin: 0 auto;
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(30, 30, 45, 0.8);
             border-radius: 20px;
             overflow: hidden;
-            border: 1px solid rgba(0, 0, 0, 0.08);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
         }
 
         .chat-header {
-            background: rgba(240, 240, 245, 0.9);
+            background: rgba(40, 40, 60, 0.9);
             padding: 20px;
             display: flex;
             align-items: center;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .chat-avatar {
@@ -471,17 +314,16 @@
             font-size: 1.5rem;
             color: white;
             font-weight: bold;
-            box-shadow: 0 5px 15px rgba(255, 51, 102, 0.3);
         }
 
         .chat-info h3 {
             font-size: 1.3rem;
-            color: #222;
+            color: var(--light);
             margin-bottom: 5px;
         }
 
         .chat-info p {
-            color: #666;
+            color: #aaa;
             font-size: 0.9rem;
         }
 
@@ -489,7 +331,6 @@
             padding: 30px;
             max-height: 500px;
             overflow-y: auto;
-            background: rgba(250, 250, 255, 0.5);
         }
 
         /* Стилизация скроллбара */
@@ -498,7 +339,7 @@
         }
 
         .chat-messages::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.05);
+            background: rgba(255, 255, 255, 0.05);
             border-radius: 10px;
         }
 
@@ -530,20 +371,20 @@
             position: relative;
             line-height: 1.6;
             font-size: 1.1rem;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
 
         .message-left .message-content {
-            background: rgba(255, 51, 102, 0.08);
-            border: 1px solid rgba(255, 51, 102, 0.15);
-            color: #333;
+            background: rgba(255, 51, 102, 0.15);
+            border: 1px solid rgba(255, 51, 102, 0.3);
+            color: #ffccd5;
             border-bottom-left-radius: 5px;
         }
 
         .message-right .message-content {
-            background: rgba(51, 204, 255, 0.08);
-            border: 1px solid rgba(51, 204, 255, 0.15);
-            color: #333;
+            background: rgba(51, 204, 255, 0.15);
+            border: 1px solid rgba(51, 204, 255, 0.3);
+            color: #ccf2ff;
             border-bottom-right-radius: 5px;
         }
 
@@ -582,7 +423,7 @@
             display: flex;
             align-items: center;
             padding: 15px 25px;
-            background: rgba(240, 240, 245, 0.7);
+            background: rgba(40, 40, 60, 0.7);
             border-radius: 25px;
             width: fit-content;
             margin-top: 20px;
@@ -633,7 +474,7 @@
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             font-weight: 600;
             letter-spacing: 1px;
-            box-shadow: 0 10px 30px rgba(255, 51, 102, 0.2);
+            box-shadow: 0 10px 30px rgba(255, 51, 102, 0.3);
             position: relative;
             overflow: hidden;
             z-index: 1;
@@ -652,7 +493,7 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
             transition: all 0.6s;
             z-index: -1;
         }
@@ -664,7 +505,7 @@
         .fireworks-btn:hover {
             animation: none;
             transform: translateY(-5px) scale(1.1);
-            box-shadow: 0 15px 40px rgba(255, 51, 102, 0.3);
+            box-shadow: 0 15px 40px rgba(255, 51, 102, 0.4);
         }
         
         .fireworks-btn:active {
@@ -673,13 +514,12 @@
         
         /* Пожелания */
         .wishes-section {
-            background: rgba(255, 255, 255, 0.7);
+            background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(20px);
             border-radius: 30px;
             padding: 50px;
             margin-top: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.9);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             position: relative;
             overflow: hidden;
         }
@@ -703,7 +543,7 @@
         
         .wishes-title {
             font-size: clamp(1.8rem, 5vw, 2.5rem);
-            color: #222;
+            color: var(--light);
             margin-bottom: 30px;
             font-weight: 300;
             text-align: center;
@@ -714,7 +554,7 @@
         .wishes-text {
             font-size: 1.2rem;
             line-height: 1.8;
-            color: #444;
+            color: #ccc;
             margin-bottom: 25px;
             max-width: 800px;
             margin-left: auto;
@@ -739,7 +579,7 @@
         
         @keyframes pulseText {
             0%, 100% { opacity: 1; }
-            50% { opacity: 0.9; }
+            50% { opacity: 0.8; }
         }
         
         .signature {
@@ -748,46 +588,20 @@
             color: var(--secondary);
             margin-top: 50px;
             padding-top: 30px;
-            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
             font-style: italic;
             opacity: 0;
             animation: slideUp 1s ease 1.6s forwards;
-        }
-        
-        /* Кнопка переключения режима полета */
-        .toggle-btn {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: white;
-            border: none;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            cursor: pointer;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-            z-index: 100;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 1.5rem;
-            color: var(--primary);
-            transition: all 0.3s ease;
-        }
-        
-        .toggle-btn:hover {
-            transform: rotate(30deg) scale(1.1);
-            box-shadow: 0 15px 40px rgba(255, 51, 102, 0.2);
         }
         
         /* Футер */
         footer {
             text-align: center;
             padding: 40px 0 30px;
-            color: #666;
+            color: #888;
             margin-top: 60px;
             font-size: 0.95rem;
-            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
         
         .made-by {
@@ -805,7 +619,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(255, 255, 255, 0.98);
+            background-color: rgba(10, 10, 20, 0.98);
             z-index: 1000;
             justify-content: center;
             align-items: center;
@@ -821,12 +635,12 @@
         .modal-content {
             max-width: 95%;
             max-height: 95%;
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(30, 30, 40, 0.95);
             backdrop-filter: blur(20px);
             border-radius: 25px;
             overflow: hidden;
-            border: 1px solid rgba(255, 51, 102, 0.2);
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 51, 102, 0.3);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
             transform: scale(0.9);
             transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
@@ -857,7 +671,7 @@
             object-fit: contain; /* ФОТО ПОЛНОСТЬЮ БЕЗ ОБРЕЗКИ */
             display: block;
             border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             animation: fadeInImg 0.5s ease-out;
         }
         
@@ -868,19 +682,19 @@
         
         .modal-info {
             padding: 30px;
-            background: rgba(250, 250, 255, 0.9);
-            border-top: 1px solid rgba(0, 0, 0, 0.05);
+            background: rgba(20, 20, 30, 0.9);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
         
         .modal-title {
             font-size: 1.8rem;
             margin-bottom: 15px;
-            color: #222;
+            color: var(--light);
         }
         
         .modal-text {
             line-height: 1.7;
-            color: #444;
+            color: #ccc;
             font-size: 1.1rem;
         }
         
@@ -888,10 +702,10 @@
             position: absolute;
             top: 20px;
             right: 20px;
-            color: #222;
+            color: white;
             font-size: 1.8rem;
             cursor: pointer;
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 51, 102, 0.8);
             width: 45px;
             height: 45px;
             border-radius: 50%;
@@ -899,7 +713,7 @@
             justify-content: center;
             align-items: center;
             z-index: 1001;
-            border: 2px solid rgba(0, 0, 0, 0.1);
+            border: 2px solid white;
             transition: all 0.3s ease;
             animation: pulseClose 2s ease-in-out infinite;
         }
@@ -911,8 +725,6 @@
         
         .modal-close:hover {
             background: var(--primary);
-            color: white;
-            border-color: var(--primary);
             transform: rotate(90deg) scale(1.1);
             animation: none;
         }
@@ -924,7 +736,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            background: var(--dark);
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -941,7 +753,7 @@
         .loader-spinner {
             width: 60px;
             height: 60px;
-            border: 5px solid rgba(255, 51, 102, 0.1);
+            border: 5px solid rgba(255, 255, 255, 0.1);
             border-radius: 50%;
             border-top-color: var(--primary);
             animation: spin 1s ease infinite;
@@ -980,16 +792,19 @@
                 padding: 10px;
             }
             
-            .memory-card.flying {
-                position: relative !important;
-                top: auto !important;
-                left: auto !important;
-                animation: none !important;
-                margin-bottom: 20px;
+            .memory-card {
+                animation: floatCardMobile 6s ease-in-out infinite;
+            }
+            
+            @keyframes floatCardMobile {
+                0%, 100% { transform: translateY(0) rotate(0deg); }
+                25% { transform: translateY(-5px) rotate(0.3deg); }
+                50% { transform: translateY(-3px) rotate(-0.3deg); }
+                75% { transform: translateY(-4px) rotate(0.2deg); }
             }
             
             .memory-card:hover {
-                transform: translateY(-10px) scale(1.05) rotateY(5deg) !important;
+                transform: translateY(-8px) scale(1.03) !important;
             }
             
             .card-image {
@@ -1028,14 +843,6 @@
                 font-size: 1.1rem;
                 width: 90%;
                 max-width: 300px;
-            }
-            
-            .toggle-btn {
-                bottom: 20px;
-                right: 20px;
-                width: 50px;
-                height: 50px;
-                font-size: 1.3rem;
             }
             
             .modal-content {
@@ -1125,14 +932,6 @@
     </style>
 </head>
 <body>
-    <!-- Плавающие частицы фона -->
-    <div class="floating-bg" id="floatingBg"></div>
-    
-    <!-- Кнопка переключения режима полета -->
-    <button class="toggle-btn" id="toggleBtn" title="Включить/выключить летающие карточки">
-        <i class="fas fa-plane"></i>
-    </button>
-    
     <!-- Загрузчик -->
     <div class="loader" id="loader">
         <div class="loader-spinner"></div>
@@ -1153,7 +952,7 @@
             <!-- Карточки будут сгенерированы через JavaScript -->
         </section>
         
-        <!-- СЕКЦИЯ: Факты о нас в стиле мессенджера -->
+        <!-- НОВАЯ СЕКЦИЯ: Факты о нас в стиле мессенджера -->
         <section class="facts-section">
             <div class="facts-glow"></div>
             <div class="facts-content">
@@ -1191,17 +990,17 @@
                 </div>
                 <div class="wishes-text">
                     Пусть 2026 станет продолжением этой удивительной саги — с новыми героями, непредсказуемыми поворотами сюжета 
-                    и хэппи-эндом в каждой главе. Желаю, чтобы ваша жизнь была наполнена кадрами, от которых захватывает дух!
+                    и хэппи-эндом в каждой главе. Желаю, чтобы наша жизнь была наполнена кадрами, от которых захватывает дух!
                 </div>
                 <div class="new-year-wish">С НОВЫМ 2026 ГОДОМ!</div>
-                <div class="signature">Создано с космической энергией ❤️ madebytrifonov</div>
+                <div class="signature"></div>
             </div>
         </section>
         
         <!-- Футер -->
         <footer>
-            <div class="made-by">madebytrifonov</div>
-            <p>© 2025 Коллаж воспоминаний. Все моменты защищены эмоциями.</p>
+            <div class="made-by">madebytrifonov ❤️</div>
+            <p></p>
         </footer>
     </div>
     
@@ -1233,13 +1032,13 @@
                 id: 2,
                 title: "Посиделки в машинке",
                 image: "images/2.jpeg", 
-                description: "Незабываемые и теплые посиделки до практически до самого утра, забавно то, что это одна из первых наших совместных фото. Машина превратилась в кинозал, кафе и психолога одновременно."
+                description: "Незабываемые и теплые посиделки до практически до самого утра, забавно то, что это одна из первых наших совместных фото."
             },
             {
                 id: 3,
-                title: "Первые цветы",
+                title: "Фоточка зашла",
                 image: "images/3.jpeg",
-                description: "Появление первых подснежников и ощущение приближающейся весны. Когда природа просыпается, а с ней и надежды на что-то новое, светлое."
+                description: "Наши посиделки в видеочате"
             },
             {
                 id: 4,
@@ -1261,9 +1060,9 @@
             },
             {
                 id: 7,
-                title: "День рождения",
+                title: "Поездка в ебеня",
                 image: "images/7.jpeg",
-                description: "Праздник с друзьями, подарки и торт со свечами. Очередной повод понять, что самые лучшие подарки — это люди рядом."
+                description: "Классно летали самолетики. Я думал мы не вернемся домой..."
             },
             {
                 id: 8,
@@ -1279,9 +1078,9 @@
             },
             {
                 id: 10,
-                title: "Предновогодняя суета",
+                title: "Старт великих отношений",
                 image: "images/10.jpeg",
-                description: "Подготовка к празднику, украшение ёлки и предвкушение чуда. Когда пахнет мандаринами, хвоей и надеждой."
+                description: "Прекрасный день, я был счаслтив. Надеюсь, что ты тоже!"
             }
         ];
 
@@ -1354,63 +1153,10 @@
             "Это самое ценное."
         ];
 
-        // Переменные состояния
-        let isFlyingMode = true;
-        let cards = [];
-
-        // Создание плавающих частиц фона
-        function createFloatingParticles() {
-            const bg = document.getElementById('floatingBg');
-            bg.innerHTML = '';
-            
-            for (let i = 0; i < 25; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'floating-particle';
-                
-                const size = Math.random() * 100 + 20;
-                const posX = Math.random() * 100;
-                const posY = Math.random() * 100;
-                const delay = Math.random() * 5;
-                const duration = Math.random() * 10 + 10;
-                
-                particle.style.width = `${size}px`;
-                particle.style.height = `${size}px`;
-                particle.style.left = `${posX}%`;
-                particle.style.top = `${posY}%`;
-                particle.style.animation = `floatParticle ${duration}s ease-in-out ${delay}s infinite alternate`;
-                
-                // Случайный цвет с прозрачностью
-                const colors = [
-                    'rgba(255, 51, 102, 0.05)',
-                    'rgba(51, 204, 255, 0.05)',
-                    'rgba(255, 204, 0, 0.05)',
-                    'rgba(102, 51, 255, 0.05)',
-                    'rgba(0, 204, 102, 0.05)'
-                ];
-                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
-                
-                bg.appendChild(particle);
-            }
-            
-            // Добавляем CSS анимацию для частиц
-            const style = document.createElement('style');
-            style.textContent = `
-                @keyframes floatParticle {
-                    0% { transform: translate(0, 0) rotate(0deg); }
-                    25% { transform: translate(${Math.random()*30 - 15}px, ${Math.random()*30 - 15}px) rotate(10deg); }
-                    50% { transform: translate(${Math.random()*40 - 20}px, ${Math.random()*40 - 20}px) rotate(-5deg); }
-                    75% { transform: translate(${Math.random()*20 - 10}px, ${Math.random()*20 - 10}px) rotate(5deg); }
-                    100% { transform: translate(${Math.random()*50 - 25}px, ${Math.random()*50 - 25}px) rotate(-10deg); }
-                }
-            `;
-            document.head.appendChild(style);
-        }
-
         // Создание карточек воспоминаний
         function createMemoryCards() {
             const grid = document.getElementById('memoriesGrid');
             grid.innerHTML = '';
-            cards = [];
             
             memories.forEach((memory, index) => {
                 const card = document.createElement('div');
@@ -1447,7 +1193,6 @@
                 `;
                 
                 grid.appendChild(card);
-                cards.push(card);
                 
                 // Обработчик клика
                 card.addEventListener('click', () => openModal(memory));
@@ -1457,45 +1202,6 @@
                     card.style.opacity = '1';
                 }, 100 + index * 50);
             });
-        }
-
-        // Включение/выключение режима полета
-        function toggleFlyingMode() {
-            isFlyingMode = !isFlyingMode;
-            const toggleBtn = document.getElementById('toggleBtn');
-            
-            if (isFlyingMode) {
-                // Включаем режим полета
-                cards.forEach((card, index) => {
-                    card.classList.add('flying');
-                    card.style.position = 'absolute';
-                    card.style.zIndex = '1';
-                    
-                    // Задаем начальные позиции
-                    const top = 5 + (index % 10) * 5;
-                    const left = 5 + (index % 10) * 9;
-                    card.style.top = `${top}%`;
-                    card.style.left = `${left}%`;
-                });
-                
-                toggleBtn.innerHTML = '<i class="fas fa-plane"></i>';
-                toggleBtn.style.color = 'var(--primary)';
-                toggleBtn.title = 'Выключить летающие карточки';
-            } else {
-                // Выключаем режим полета
-                cards.forEach((card) => {
-                    card.classList.remove('flying');
-                    card.style.position = '';
-                    card.style.top = '';
-                    card.style.left = '';
-                    card.style.transform = '';
-                    card.style.animation = '';
-                });
-                
-                toggleBtn.innerHTML = '<i class="fas fa-th-large"></i>';
-                toggleBtn.style.color = 'var(--secondary)';
-                toggleBtn.title = 'Включить летающие карточки';
-            }
         }
 
         // Создание чата с фактами
@@ -1727,21 +1433,12 @@
                 document.getElementById('loader').classList.add('hidden');
                 
                 // Инициализация
-                createFloatingParticles();
                 createMemoryCards();
                 createChatMessages();
-                
-                // Включаем режим полета по умолчанию
-                setTimeout(() => {
-                    if (window.innerWidth > 768) {
-                        toggleFlyingMode();
-                    }
-                }, 500);
                 
                 // Обработчики событий
                 document.getElementById('fireworksBtn').addEventListener('click', createFireworks);
                 document.getElementById('modalClose').addEventListener('click', closeModal);
-                document.getElementById('toggleBtn').addEventListener('click', toggleFlyingMode);
                 
                 // Закрытие модального окна по клику на фон
                 document.getElementById('photoModal').addEventListener('click', (e) => {
@@ -1759,13 +1456,19 @@
             }, 800);
         });
 
-        // Обработка изменения размера окна
-        window.addEventListener('resize', () => {
-            if (window.innerWidth <= 768 && isFlyingMode) {
-                // На мобильных выключаем режим полета
-                toggleFlyingMode();
-                isFlyingMode = false;
-            }
+        // Анимация при скролле для дополнительного эффекта
+        window.addEventListener('scroll', () => {
+            const cards = document.querySelectorAll('.memory-card');
+            const windowHeight = window.innerHeight;
+            
+            cards.forEach((card, index) => {
+                const cardTop = card.getBoundingClientRect().top;
+                
+                if (cardTop < windowHeight - 100) {
+                    // Уже видимые карточки немного оживляем
+                    card.style.animationDelay = `${index * 0.1}s`;
+                }
+            });
         });
     </script>
 </body>
