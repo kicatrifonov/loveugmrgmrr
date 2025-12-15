@@ -2,14 +2,16 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2025: Вселенная наших воспоминаний</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>2025: Наши воспоминания</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-text-size-adjust: 100%;
         }
         
         :root {
@@ -19,905 +21,404 @@
             --dark: #0a0a14;
             --light: #ffffff;
             --gray: #2a2a3a;
-            --neon-pink: #ff00ff;
-            --neon-blue: #00ffff;
-            --neon-green: #00ff00;
         }
         
         body {
-            background: radial-gradient(circle at center, #0f0f1f 0%, #0a0a14 100%);
+            background-color: var(--dark);
             color: var(--light);
-            font-family: 'Segoe UI', system-ui, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
             min-height: 100vh;
             overflow-x: hidden;
-            perspective: 1000px;
-        }
-
-        /* Космический фон с частицами */
-        #space-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        .star {
-            position: absolute;
-            background: white;
-            border-radius: 50%;
-            animation: twinkle 3s infinite;
-        }
-
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 1; }
-        }
-
-        /* Контейнер с 3D эффектом */
-        .container-3d {
-            position: relative;
-            transform-style: preserve-3d;
-            min-height: 100vh;
+            touch-action: pan-y;
         }
         
         .container {
-            max-width: 1400px;
+            max-width: 100%;
             margin: 0 auto;
-            padding: 20px;
+            padding: 15px;
             position: relative;
-            z-index: 10;
-            transform-style: preserve-3d;
         }
         
-        /* 3D Герой-секция */
+        /* Герой-секция для мобильных */
         .hero-section {
             text-align: center;
-            padding: 60px 20px 80px;
+            padding: 30px 15px 40px;
             position: relative;
             overflow: hidden;
-            transform-style: preserve-3d;
         }
         
-        .hero-3d {
+        .hero-glow {
             position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            z-index: -1;
-            transform-style: preserve-3d;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
+            filter: blur(60px);
+            opacity: 0.2;
+            animation: pulse 8s ease-in-out infinite;
         }
         
-        .floating-element {
-            position: absolute;
-            width: 100px;
-            height: 100px;
-            background: rgba(255, 51, 102, 0.2);
-            border-radius: 50%;
-            filter: blur(40px);
-            animation: float3d 20s infinite ease-in-out;
-            transform-style: preserve-3d;
-        }
-        
-        .floating-element:nth-child(1) {
-            top: 20%;
-            left: 10%;
-            background: rgba(51, 204, 255, 0.2);
-            animation-delay: 0s;
-        }
-        
-        .floating-element:nth-child(2) {
-            top: 60%;
-            right: 15%;
-            background: rgba(255, 204, 0, 0.2);
-            animation-delay: 5s;
-        }
-        
-        .floating-element:nth-child(3) {
-            bottom: 30%;
-            left: 20%;
-            background: rgba(255, 0, 255, 0.2);
-            animation-delay: 10s;
-        }
-        
-        @keyframes float3d {
-            0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
-            25% { transform: translate3d(50px, 30px, 50px) rotate(90deg); }
-            50% { transform: translate3d(-30px, -50px, 30px) rotate(180deg); }
-            75% { transform: translate3d(-50px, 30px, -30px) rotate(270deg); }
+        @keyframes pulse {
+            0%, 100% { opacity: 0.1; transform: translate(-50%, -50%) scale(1); }
+            50% { opacity: 0.3; transform: translate(-50%, -50%) scale(1.1); }
         }
         
         .year {
-            font-size: clamp(4rem, 15vw, 8rem);
+            font-size: 4rem;
             font-weight: 900;
             color: transparent;
             background: linear-gradient(45deg, var(--primary), var(--secondary), var(--accent));
-            background-size: 300% 300%;
             -webkit-background-clip: text;
             background-clip: text;
-            animation: gradient 8s ease infinite, floatText 6s ease-in-out infinite;
-            margin-bottom: 20px;
-            letter-spacing: -3px;
-            text-shadow: 0 10px 30px rgba(255, 51, 102, 0.3);
-            position: relative;
-            display: inline-block;
-            transform-style: preserve-3d;
-        }
-        
-        .year::after {
-            content: '2025';
-            position: absolute;
-            top: 5px;
-            left: 5px;
-            color: transparent;
-            background: linear-gradient(45deg, var(--neon-pink), var(--neon-blue));
-            -webkit-background-clip: text;
-            background-clip: text;
-            z-index: -1;
-            filter: blur(15px);
-            opacity: 0.7;
-        }
-        
-        @keyframes floatText {
-            0%, 100% { transform: translate3d(0, 0, 0) rotateX(0deg); }
-            33% { transform: translate3d(0, -10px, 20px) rotateX(5deg); }
-            66% { transform: translate3d(0, 5px, -10px) rotateX(-3deg); }
+            margin-bottom: 10px;
+            text-shadow: 0 5px 15px rgba(255, 51, 102, 0.3);
         }
         
         .title {
-            font-size: clamp(1.8rem, 5vw, 3rem);
-            font-weight: 300;
-            margin-bottom: 30px;
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            animation: slideUp 1s ease 0.5s forwards;
             opacity: 0;
-            animation: slideUp3d 1s ease 0.5s forwards;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            background: linear-gradient(45deg, var(--light), var(--secondary));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+            color: var(--light);
         }
         
-        @keyframes slideUp3d {
-            from { opacity: 0; transform: translate3d(0, 50px, 0) rotateX(-20deg); }
-            to { opacity: 1; transform: translate3d(0, 0, 0) rotateX(0deg); }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
         .subtitle {
-            font-size: clamp(1rem, 3vw, 1.4rem);
+            font-size: 1rem;
             color: #aaa;
-            max-width: 700px;
-            margin: 0 auto 40px;
-            line-height: 1.6;
+            line-height: 1.5;
+            max-width: 500px;
+            margin: 0 auto 20px;
+            animation: slideUp 1s ease 0.8s forwards;
             opacity: 0;
-            animation: slideUp3d 1s ease 0.8s forwards;
-            transform-style: preserve-3d;
         }
         
-        /* 3D Коллаж воспоминаний */
+        /* Адаптивная сетка карточек */
         .memories-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 30px;
-            margin-bottom: 80px;
-            padding: 30px;
-            position: relative;
-            transform-style: preserve-3d;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+            padding: 10px;
         }
         
         .memory-card {
-            background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-            backdrop-filter: blur(15px);
-            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
             overflow: hidden;
-            position: relative;
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             cursor: pointer;
-            box-shadow: 
-                0 20px 40px rgba(0, 0, 0, 0.4),
-                0 0 0 1px rgba(255, 255, 255, 0.05),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            transform-style: preserve-3d;
-            animation: cardEntrance 1s ease-out forwards;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
             opacity: 0;
+            animation: fadeInUp 0.6s ease forwards;
+            animation-delay: calc(var(--delay) * 0.1s);
         }
         
-        @keyframes cardEntrance {
-            from { 
-                opacity: 0; 
-                transform: translate3d(0, 100px, -100px) rotateX(-45deg) scale(0.8); 
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
             }
-            to { 
-                opacity: 1; 
-                transform: translate3d(0, 0, 0) rotateX(0deg) scale(1); 
+            to {
+                opacity: 1;
+                transform: translateY(0);
             }
         }
         
-        .memory-card:hover {
-            transform: translate3d(0, -20px, 50px) rotateX(10deg) rotateY(5deg) scale(1.05) !important;
-            box-shadow: 
-                0 40px 80px rgba(255, 51, 102, 0.3),
-                0 0 30px rgba(255, 51, 102, 0.2),
-                inset 0 1px 0 rgba(255, 255, 255, 0.2);
-            border-color: var(--primary);
-            z-index: 100;
-        }
-        
-        .card-3d-effect {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, transparent, rgba(255, 51, 102, 0.1), transparent);
-            z-index: 1;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-            border-radius: inherit;
-        }
-        
-        .memory-card:hover .card-3d-effect {
-            opacity: 1;
-            animation: shimmer 2s infinite;
-        }
-        
-        @keyframes shimmer {
-            0% { background-position: -200% center; }
-            100% { background-position: 200% center; }
+        .memory-card:active {
+            transform: scale(0.98);
         }
         
         .card-image {
             width: 100%;
-            height: 280px;
+            height: 200px;
             object-fit: cover;
             display: block;
-            transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            filter: grayscale(0.3) contrast(1.1) brightness(0.9);
-            transform: translateZ(20px);
-            position: relative;
+            transition: transform 0.3s ease;
         }
         
-        .memory-card:hover .card-image {
-            transform: translateZ(50px) scale(1.1);
-            filter: grayscale(0) contrast(1.2) brightness(1.1);
+        .memory-card:hover .card-image,
+        .memory-card:active .card-image {
+            transform: scale(1.05);
         }
         
         .card-content {
-            padding: 30px;
-            position: relative;
-            z-index: 2;
-            transform-style: preserve-3d;
+            padding: 20px;
         }
         
         .card-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
-            transform: translateZ(30px);
+            margin-bottom: 12px;
         }
         
         .card-title {
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             font-weight: 700;
             color: var(--light);
             margin: 0;
-            background: linear-gradient(45deg, var(--light), var(--secondary));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
         }
         
         .card-icon {
-            font-size: 1.5rem;
+            font-size: 1.1rem;
             color: var(--primary);
-            opacity: 0.8;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            transform-style: preserve-3d;
-        }
-        
-        .memory-card:hover .card-icon {
-            opacity: 1;
-            transform: translateX(10px) translateZ(40px) rotate(360deg);
-            color: var(--accent);
         }
         
         .card-text {
             color: #bbb;
-            line-height: 1.7;
-            font-size: 1.05rem;
-            margin-bottom: 15px;
-            transform: translateZ(20px);
+            line-height: 1.5;
+            font-size: 0.95rem;
+            margin-bottom: 10px;
         }
         
-        /* Факты в стиле мессенджера с 3D */
+        /* Факты в стиле мессенджера */
         .facts-section {
-            background: linear-gradient(145deg, rgba(30, 30, 50, 0.9), rgba(20, 20, 40, 0.9));
-            border-radius: 30px;
-            padding: 50px;
-            margin: 60px 0;
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(20, 20, 30, 0.9);
+            border-radius: 20px;
+            padding: 25px;
+            margin: 30px 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             position: relative;
             overflow: hidden;
-            transform-style: preserve-3d;
-            box-shadow: 
-                0 30px 60px rgba(0, 0, 0, 0.5),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
         }
-
-        .facts-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
-            animation: slideBorder 3s infinite linear;
-        }
-
-        @keyframes slideBorder {
-            0% { background-position: -100% 0; }
-            100% { background-position: 200% 0; }
-        }
-
-        .facts-3d {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            opacity: 0.1;
-        }
-
-        .hologram {
-            position: absolute;
-            width: 200px;
-            height: 200px;
-            background: radial-gradient(circle, var(--neon-blue) 0%, transparent 70%);
-            filter: blur(60px);
-            animation: hologramFloat 15s infinite ease-in-out;
-        }
-
-        .hologram:nth-child(1) {
-            top: -100px;
-            left: -100px;
-        }
-
-        .hologram:nth-child(2) {
-            bottom: -100px;
-            right: -100px;
-            background: radial-gradient(circle, var(--neon-pink) 0%, transparent 70%);
-            animation-delay: 5s;
-        }
-
-        @keyframes hologramFloat {
-            0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
-            25% { transform: translate3d(50px, 50px, 50px) scale(1.2); }
-            50% { transform: translate3d(-50px, -50px, -50px) scale(0.8); }
-            75% { transform: translate3d(-50px, 50px, 50px) scale(1.1); }
-        }
-
-        .facts-content {
-            position: relative;
-            z-index: 1;
-            transform-style: preserve-3d;
-        }
-
+        
         .section-title {
-            font-size: clamp(2rem, 5vw, 2.8rem);
+            font-size: 1.8rem;
             color: var(--light);
-            margin-bottom: 50px;
+            margin-bottom: 25px;
             text-align: center;
-            font-weight: 800;
-            background: linear-gradient(45deg, var(--primary), var(--accent), var(--secondary));
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            position: relative;
-            display: inline-block;
-            left: 50%;
-            transform: translateX(-50%) translateZ(50px);
-            text-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
         }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -15px;
-            left: 25%;
-            width: 50%;
-            height: 4px;
-            background: linear-gradient(90deg, transparent, var(--primary), var(--accent), transparent);
-            border-radius: 2px;
-            animation: pulseLine 2s infinite;
-        }
-
-        @keyframes pulseLine {
-            0%, 100% { opacity: 0.5; transform: scaleX(0.8); }
-            50% { opacity: 1; transform: scaleX(1); }
-        }
-
-        /* Мессенджер с 3D эффектами */
+        
         .chat-container {
-            max-width: 900px;
-            margin: 0 auto;
-            background: linear-gradient(145deg, rgba(40, 40, 70, 0.9), rgba(30, 30, 50, 0.9));
-            border-radius: 25px;
+            background: rgba(30, 30, 45, 0.8);
+            border-radius: 15px;
             overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 
-                0 25px 50px rgba(0, 0, 0, 0.4),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            transform-style: preserve-3d;
-            transform: perspective(1000px) rotateX(2deg);
-            transition: transform 0.6s ease;
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
-
-        .chat-container:hover {
-            transform: perspective(1000px) rotateX(0deg) translateZ(20px);
-        }
-
+        
         .chat-header {
-            background: linear-gradient(90deg, rgba(50, 50, 80, 0.9), rgba(60, 60, 90, 0.9));
-            padding: 25px;
+            background: rgba(40, 40, 60, 0.9);
+            padding: 15px;
             display: flex;
             align-items: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            position: relative;
-            overflow: hidden;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
-
-        .chat-header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            animation: headerShine 3s infinite;
-        }
-
-        @keyframes headerShine {
-            0% { left: -100%; }
-            100% { left: 100%; }
-        }
-
+        
         .chat-avatar {
-            width: 60px;
-            height: 60px;
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
             background: linear-gradient(45deg, var(--primary), var(--secondary));
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-right: 20px;
-            font-size: 1.8rem;
+            margin-right: 12px;
+            font-size: 1.2rem;
             color: white;
             font-weight: bold;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-            position: relative;
-            overflow: hidden;
-            animation: avatarGlow 2s infinite alternate;
         }
-
-        @keyframes avatarGlow {
-            0% { box-shadow: 0 10px 20px rgba(255, 51, 102, 0.3); }
-            100% { box-shadow: 0 10px 30px rgba(51, 204, 255, 0.4); }
-        }
-
-        .chat-avatar::after {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(45deg, var(--primary), var(--secondary), var(--accent));
-            border-radius: 50%;
-            z-index: -1;
-            animation: rotateBorder 3s linear infinite;
-        }
-
-        @keyframes rotateBorder {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
+        
         .chat-info h3 {
-            font-size: 1.5rem;
+            font-size: 1.1rem;
             color: var(--light);
-            margin-bottom: 8px;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            margin-bottom: 3px;
         }
-
+        
         .chat-info p {
-            color: #bbb;
-            font-size: 1rem;
-            letter-spacing: 1px;
+            color: #aaa;
+            font-size: 0.85rem;
         }
-
+        
         .chat-messages {
-            padding: 35px;
-            max-height: 600px;
+            padding: 20px;
+            max-height: 400px;
             overflow-y: auto;
-            transform-style: preserve-3d;
         }
-
+        
         .chat-messages::-webkit-scrollbar {
-            width: 10px;
+            width: 5px;
         }
-
+        
         .chat-messages::-webkit-scrollbar-track {
             background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
         }
-
+        
         .chat-messages::-webkit-scrollbar-thumb {
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
-            border-radius: 10px;
-            box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+            background: var(--primary);
+            border-radius: 3px;
         }
-
+        
         .message {
-            margin-bottom: 30px;
-            animation: messageFloat 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            margin-bottom: 18px;
             opacity: 0;
-            transform-style: preserve-3d;
-            perspective: 500px;
+            animation: messageAppear 0.5s ease forwards;
         }
-
-        @keyframes messageFloat {
-            from { 
-                opacity: 0; 
-                transform: translate3d(0, 30px, -50px) rotateX(-45deg) scale(0.9); 
+        
+        @keyframes messageAppear {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
             }
-            to { 
-                opacity: 1; 
-                transform: translate3d(0, 0, 0) rotateX(0deg) scale(1); 
+            to {
+                opacity: 1;
+                transform: translateY(0);
             }
         }
-
-        .message-right {
-            text-align: right;
-        }
-
+        
         .message-content {
             display: inline-block;
-            padding: 22px 28px;
-            border-radius: 30px;
-            max-width: 75%;
-            position: relative;
-            line-height: 1.7;
-            font-size: 1.15rem;
-            box-shadow: 
-                0 10px 25px rgba(0, 0, 0, 0.2),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
-            transform-style: preserve-3d;
-            cursor: pointer;
-            transform: translateZ(0);
+            padding: 14px 18px;
+            border-radius: 20px;
+            max-width: 85%;
+            line-height: 1.4;
+            font-size: 0.95rem;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
         }
-
-        .message-content:hover {
-            transform: translateZ(20px) scale(1.05);
-        }
-
+        
         .message-left .message-content {
-            background: linear-gradient(145deg, rgba(255, 51, 102, 0.2), rgba(255, 51, 102, 0.1));
+            background: rgba(255, 51, 102, 0.15);
             border: 1px solid rgba(255, 51, 102, 0.3);
-            color: #ffd6e0;
-            border-bottom-left-radius: 10px;
+            color: #ffccd5;
+            border-bottom-left-radius: 5px;
         }
-
+        
         .message-right .message-content {
-            background: linear-gradient(145deg, rgba(51, 204, 255, 0.2), rgba(51, 204, 255, 0.1));
+            background: rgba(51, 204, 255, 0.15);
             border: 1px solid rgba(51, 204, 255, 0.3);
-            color: #d6f7ff;
-            border-bottom-right-radius: 10px;
+            color: #ccf2ff;
+            border-bottom-right-radius: 5px;
         }
-
+        
         .message-time {
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             color: #888;
-            margin-top: 10px;
+            margin-top: 5px;
             display: block;
-            font-weight: 300;
-            letter-spacing: 0.5px;
         }
-
-        .message-left .message-time {
-            text-align: left;
-        }
-
-        .message-right .message-time {
-            text-align: right;
-        }
-
+        
         .message-icon {
             display: inline-block;
-            margin-right: 12px;
-            font-size: 1.3rem;
+            margin-right: 8px;
+            font-size: 1rem;
             vertical-align: middle;
-            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
         }
-
-        .message-left .message-icon {
-            color: var(--primary);
-        }
-
-        .message-right .message-icon {
-            color: var(--secondary);
-        }
-
-        /* Интерактивная кнопка с 3D эффектом */
+        
+        /* Интерактивная кнопка */
         .interactive-section {
             text-align: center;
-            margin: 80px 0;
-            transform-style: preserve-3d;
+            margin: 40px 0;
         }
-
+        
         .fireworks-btn {
-            background: linear-gradient(45deg, var(--primary), var(--secondary), var(--accent));
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
             border: none;
-            padding: 25px 60px;
-            font-size: 1.4rem;
+            padding: 18px 35px;
+            font-size: 1.1rem;
             color: white;
-            border-radius: 60px;
+            border-radius: 50px;
             cursor: pointer;
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            font-weight: 700;
-            letter-spacing: 1.5px;
-            box-shadow: 
-                0 20px 40px rgba(255, 51, 102, 0.4),
-                0 0 30px rgba(255, 51, 102, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            font-weight: 600;
+            box-shadow: 0 8px 20px rgba(255, 51, 102, 0.3);
             position: relative;
             overflow: hidden;
-            z-index: 1;
-            animation: btn3dFloat 3s ease-in-out infinite;
-            transform-style: preserve-3d;
-            text-transform: uppercase;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            touch-action: manipulation;
         }
-
-        @keyframes btn3dFloat {
-            0%, 100% { transform: translate3d(0, 0, 0) rotateX(0deg); }
-            50% { transform: translate3d(0, -15px, 30px) rotateX(10deg); }
-        }
-
-        .fireworks-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: all 0.8s;
-            z-index: -1;
-        }
-
-        .fireworks-btn:hover {
-            animation: none;
-            transform: translate3d(0, -10px, 50px) rotateX(15deg) scale(1.1);
-            box-shadow: 
-                0 30px 60px rgba(255, 51, 102, 0.6),
-                0 0 50px rgba(255, 51, 102, 0.4),
-                inset 0 1px 0 rgba(255, 255, 255, 0.4);
-            background: linear-gradient(45deg, var(--neon-pink), var(--neon-blue), var(--neon-green));
-        }
-
-        .fireworks-btn:hover::before {
-            left: 100%;
-        }
-
+        
         .fireworks-btn:active {
-            transform: translate3d(0, -5px, 30px) rotateX(5deg) scale(1.05);
-            transition: all 0.2s;
+            transform: scale(0.95);
+            box-shadow: 0 4px 10px rgba(255, 51, 102, 0.3);
         }
-
+        
         .fireworks-btn i {
-            margin-right: 15px;
-            font-size: 1.6rem;
-            vertical-align: middle;
-            animation: iconPulse 1.5s infinite alternate;
+            font-size: 1.2rem;
         }
-
-        @keyframes iconPulse {
-            0% { transform: scale(1); }
-            100% { transform: scale(1.2); }
-        }
-
-        /* Новые интерактивные элементы */
-        .particles-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 2;
-        }
-
-        .particle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: var(--primary);
-            border-radius: 50%;
-            pointer-events: none;
-            animation: particleFloat 10s linear infinite;
-        }
-
-        @keyframes particleFloat {
-            0% {
-                transform: translate3d(0, 0, 0);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                transform: translate3d(var(--tx), var(--ty), var(--tz));
-                opacity: 0;
-            }
-        }
-
-        .interactive-cursor {
-            position: fixed;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: radial-gradient(circle, var(--primary), transparent);
-            pointer-events: none;
-            z-index: 9999;
-            mix-blend-mode: screen;
-            filter: blur(5px);
-            transition: transform 0.1s;
-        }
-
-        /* Пожелания с 3D */
+        
+        /* Пожелания */
         .wishes-section {
-            background: linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
-            backdrop-filter: blur(25px);
-            border-radius: 40px;
-            padding: 60px;
-            margin-top: 60px;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            position: relative;
-            overflow: hidden;
-            transform-style: preserve-3d;
-            box-shadow: 
-                0 40px 80px rgba(0, 0, 0, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-        }
-        
-        .wishes-glow {
-            position: absolute;
-            top: -150px;
-            right: -150px;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, var(--secondary) 0%, transparent 70%);
-            filter: blur(80px);
-            opacity: 0.15;
-            z-index: 0;
-            animation: glowPulse 8s ease-in-out infinite;
-        }
-        
-        @keyframes glowPulse {
-            0%, 100% { transform: scale(1); opacity: 0.15; }
-            50% { transform: scale(1.2); opacity: 0.25; }
-        }
-        
-        .wishes-content {
-            position: relative;
-            z-index: 1;
-            transform-style: preserve-3d;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px 20px;
+            margin-top: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
         
         .wishes-title {
-            font-size: clamp(2rem, 5vw, 3rem);
+            font-size: 1.6rem;
             color: var(--light);
-            margin-bottom: 40px;
-            font-weight: 300;
+            margin-bottom: 20px;
             text-align: center;
-            opacity: 0;
-            animation: slideUp3d 1s ease 1.2s forwards;
-            transform: translateZ(30px);
+            font-weight: 600;
         }
         
         .wishes-text {
-            font-size: 1.25rem;
-            line-height: 1.9;
+            font-size: 1rem;
+            line-height: 1.6;
             color: #ccc;
-            margin-bottom: 30px;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
+            margin-bottom: 20px;
             text-align: center;
-            opacity: 0;
-            animation: slideUp3d 1s ease 1.4s forwards;
-            transform: translateZ(20px);
         }
         
         .new-year-wish {
-            font-size: clamp(2.5rem, 8vw, 4rem);
+            font-size: 2rem;
             color: transparent;
-            background: linear-gradient(45deg, var(--primary), var(--accent), var(--secondary));
-            background-size: 300% 300%;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
             -webkit-background-clip: text;
             background-clip: text;
-            margin-top: 50px;
+            margin-top: 30px;
             font-weight: 900;
             text-align: center;
-            animation: gradient 4s ease infinite, wishFloat 5s ease-in-out infinite;
-            transform-style: preserve-3d;
-            position: relative;
-        }
-        
-        @keyframes wishFloat {
-            0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
-            50% { transform: translate3d(0, -20px, 50px) scale(1.05); }
         }
         
         .signature {
             text-align: center;
-            font-size: 1.3rem;
+            font-size: 1rem;
             color: var(--secondary);
-            margin-top: 60px;
-            padding-top: 40px;
-            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
             font-style: italic;
-            opacity: 0;
-            animation: slideUp3d 1s ease 1.6s forwards;
-            transform: translateZ(40px);
         }
         
-        /* Футер с 3D */
+        /* Футер */
         footer {
             text-align: center;
-            padding: 50px 0 40px;
+            padding: 30px 0 20px;
             color: #888;
-            margin-top: 80px;
-            font-size: 1rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.15);
-            position: relative;
-            transform-style: preserve-3d;
-        }
-        
-        footer::before {
-            content: '';
-            position: absolute;
-            top: -1px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 200px;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            margin-top: 40px;
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
         
         .made-by {
-            font-size: 1.3rem;
+            font-size: 1rem;
             color: var(--primary);
-            margin-bottom: 15px;
-            font-weight: 700;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            transform: translateZ(30px);
+            margin-bottom: 8px;
+            font-weight: 600;
         }
         
-        /* Модальное окно - 3D версия */
+        /* Модальное окно - РАБОЧЕЕ для мобильных */
         .modal {
             display: none;
             position: fixed;
@@ -925,14 +426,13 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at center, rgba(10, 10, 20, 0.98), rgba(5, 5, 15, 0.98));
-            z-index: 10000;
+            background-color: rgba(10, 10, 20, 0.95);
+            z-index: 1000;
             justify-content: center;
             align-items: center;
+            padding: 15px;
             opacity: 0;
-            transition: opacity 0.5s ease;
-            backdrop-filter: blur(20px);
-            perspective: 2000px;
+            transition: opacity 0.3s ease;
         }
         
         .modal.active {
@@ -941,27 +441,16 @@
         }
         
         .modal-content {
-            max-width: 90%;
-            max-height: 90%;
-            background: linear-gradient(145deg, rgba(40, 40, 60, 0.95), rgba(30, 30, 50, 0.95));
-            backdrop-filter: blur(30px);
-            border-radius: 35px;
+            width: 100%;
+            max-width: 500px;
+            max-height: 85vh;
+            background: rgba(30, 30, 40, 0.95);
+            border-radius: 20px;
             overflow: hidden;
-            border: 1px solid rgba(255, 51, 102, 0.4);
-            box-shadow: 
-                0 50px 100px rgba(0, 0, 0, 0.6),
-                0 0 60px rgba(255, 51, 102, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.2);
-            transform: scale(0.8) rotateX(-20deg) rotateY(10deg);
-            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
+            border: 1px solid rgba(255, 51, 102, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
             display: flex;
             flex-direction: column;
-            transform-style: preserve-3d;
-        }
-        
-        .modal.active .modal-content {
-            transform: scale(1) rotateX(0deg) rotateY(0deg);
         }
         
         .modal-img-container {
@@ -969,11 +458,9 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 40px;
+            padding: 20px;
             overflow: auto;
-            max-height: 70vh;
-            min-height: 400px;
-            transform-style: preserve-3d;
+            min-height: 200px;
         }
         
         .modal-img {
@@ -983,100 +470,60 @@
             height: auto;
             object-fit: contain;
             display: block;
-            border-radius: 20px;
-            box-shadow: 
-                0 20px 50px rgba(0, 0, 0, 0.5),
-                0 0 30px rgba(255, 51, 102, 0.2);
-            animation: modalImgEntrance 0.8s ease-out 0.3s both;
-            transform-style: preserve-3d;
-            filter: brightness(1.1) contrast(1.1);
-            transition: transform 0.5s ease;
-        }
-
-        .modal-img:hover {
-            transform: translateZ(50px) scale(1.05);
-        }
-        
-        @keyframes modalImgEntrance {
-            from { opacity: 0; transform: translateZ(-100px) scale(0.9); }
-            to { opacity: 1; transform: translateZ(0) scale(1); }
+            border-radius: 10px;
         }
         
         .modal-info {
-            padding: 40px;
-            background: linear-gradient(145deg, rgba(30, 30, 45, 0.95), rgba(25, 25, 40, 0.95));
-            border-top: 1px solid rgba(255, 255, 255, 0.15);
-            transform-style: preserve-3d;
+            padding: 20px;
+            background: rgba(20, 20, 30, 0.9);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
         
         .modal-title {
-            font-size: 2.2rem;
-            margin-bottom: 20px;
+            font-size: 1.4rem;
+            margin-bottom: 12px;
             color: var(--light);
-            background: linear-gradient(45deg, var(--light), var(--secondary));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            transform: translateZ(30px);
+            font-weight: 700;
         }
         
         .modal-text {
-            line-height: 1.8;
-            color: #ddd;
-            font-size: 1.2rem;
-            transform: translateZ(20px);
+            line-height: 1.5;
+            color: #ccc;
+            font-size: 1rem;
         }
         
         .modal-close {
             position: absolute;
-            top: 25px;
-            right: 25px;
+            top: 20px;
+            right: 20px;
             color: white;
-            font-size: 2.2rem;
+            font-size: 1.8rem;
             cursor: pointer;
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
-            width: 55px;
-            height: 55px;
+            background: rgba(255, 51, 102, 0.9);
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 10001;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            animation: modalCloseFloat 2s ease-in-out infinite;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            transform-style: preserve-3d;
+            z-index: 1001;
+            border: 2px solid white;
         }
         
-        @keyframes modalCloseFloat {
-            0%, 100% { transform: translateZ(0) scale(1); }
-            50% { transform: translateZ(30px) scale(1.1); }
-        }
-        
-        .modal-close:hover {
-            background: linear-gradient(45deg, var(--neon-pink), var(--neon-blue));
-            transform: rotate(180deg) translateZ(50px) scale(1.2);
-            animation: none;
-            border-color: white;
-        }
-        
-        /* Анимация загрузки - 3D версия */
+        /* Загрузчик */
         .loader {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at center, var(--dark), #000);
+            background: var(--dark);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            z-index: 100000;
-            transition: opacity 0.8s ease, visibility 0.8s ease;
-            backdrop-filter: blur(20px);
-            transform-style: preserve-3d;
+            z-index: 10000;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
         }
         
         .loader.hidden {
@@ -1084,412 +531,308 @@
             visibility: hidden;
         }
         
-        .loader-3d {
-            width: 120px;
-            height: 120px;
-            position: relative;
-            transform-style: preserve-3d;
-            animation: loaderRotate 3s linear infinite;
-        }
-        
-        @keyframes loaderRotate {
-            0% { transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
-            100% { transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg); }
-        }
-        
         .loader-spinner {
-            width: 100%;
-            height: 100%;
-            border: 8px solid transparent;
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255, 255, 255, 0.1);
             border-radius: 50%;
             border-top-color: var(--primary);
-            border-right-color: var(--secondary);
-            border-bottom-color: var(--accent);
-            animation: spin3d 2s ease infinite;
-            position: absolute;
-            top: 0;
-            left: 0;
+            animation: spin 1s ease infinite;
+            margin-bottom: 15px;
         }
         
-        @keyframes spin3d {
-            0% { transform: rotate3d(1, 1, 1, 0deg); }
-            100% { transform: rotate3d(1, 1, 1, 360deg); }
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
         }
         
         .loader-text {
             color: var(--primary);
-            font-size: 1.4rem;
-            font-weight: 700;
-            margin-top: 30px;
-            animation: fadeInOut 2s ease-in-out infinite;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            transform: translateZ(40px);
+            font-size: 1rem;
+            font-weight: 600;
         }
         
-        /* Адаптивность для мобильных */
+        /* Эффект акселерометра (только на мобильных) */
+        .motion-indicator {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: none; /* По умолчанию скрыт */
+        }
+        
+        .motion-indicator i {
+            color: var(--primary);
+            font-size: 1.2rem;
+            animation: moveIcon 2s infinite alternate;
+        }
+        
+        @keyframes moveIcon {
+            0% { transform: translateX(-5px) rotate(-10deg); }
+            100% { transform: translateX(5px) rotate(10deg); }
+        }
+        
+        /* Адаптивность */
         @media (max-width: 768px) {
-            .container {
-                padding: 15px;
-            }
-            
-            .hero-section {
-                padding: 40px 15px 60px;
-            }
-            
             .memories-grid {
                 grid-template-columns: 1fr;
-                gap: 25px;
-                padding: 15px;
+                gap: 15px;
+                padding: 0;
             }
             
-            .card-image {
-                height: 250px;
+            .memory-card {
+                margin: 0 5px;
             }
             
-            .facts-section {
-                padding: 30px 20px;
-                margin: 40px 0;
-                border-radius: 25px;
-            }
-            
-            .chat-messages {
-                padding: 25px;
-                max-height: 500px;
-            }
-            
-            .message-content {
-                max-width: 85%;
-                padding: 18px 22px;
-                font-size: 1.05rem;
-            }
-            
-            .chat-header {
-                padding: 20px;
-            }
-            
-            .fireworks-btn {
-                padding: 22px 45px;
-                font-size: 1.2rem;
-                width: 90%;
-                max-width: 350px;
-            }
-            
-            .wishes-section {
-                padding: 40px 25px;
-                border-radius: 30px;
-                margin: 30px 15px;
-            }
-            
-            .modal-content {
-                max-width: 95%;
-                max-height: 95%;
-            }
-            
-            .modal-img-container {
-                max-height: 50vh;
-                padding: 20px;
-                min-height: 300px;
-            }
-            
-            .modal-info {
-                padding: 30px;
-            }
-            
-            .modal-title {
-                font-size: 1.8rem;
-            }
-            
-            .modal-text {
-                font-size: 1.1rem;
-            }
-        }
-        
-        @media (max-width: 480px) {
             .year {
                 font-size: 3.5rem;
             }
             
             .title {
-                font-size: 1.6rem;
+                font-size: 1.5rem;
             }
             
             .subtitle {
-                font-size: 1.1rem;
+                font-size: 0.95rem;
             }
             
-            .card-image {
-                height: 220px;
-            }
-            
-            .card-content {
-                padding: 25px;
-            }
-            
-            .card-title {
-                font-size: 1.3rem;
+            .chat-messages {
+                max-height: 300px;
             }
             
             .message-content {
                 max-width: 90%;
-                padding: 16px 20px;
-                font-size: 1rem;
-            }
-            
-            .chat-avatar {
-                width: 50px;
-                height: 50px;
-                font-size: 1.5rem;
+                padding: 12px 16px;
+                font-size: 0.9rem;
             }
             
             .fireworks-btn {
-                padding: 20px 35px;
+                width: 90%;
+                max-width: 300px;
+            }
+            
+            .modal-content {
+                max-height: 90vh;
+            }
+            
+            .modal-img-container {
+                max-height: 50vh;
+                padding: 15px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .hero-section {
+                padding: 20px 10px 30px;
+            }
+            
+            .year {
+                font-size: 3rem;
+            }
+            
+            .title {
+                font-size: 1.3rem;
+            }
+            
+            .card-image {
+                height: 180px;
+            }
+            
+            .card-title {
                 font-size: 1.1rem;
             }
             
-            .wishes-text {
-                font-size: 1.1rem;
+            .card-text {
+                font-size: 0.9rem;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
             }
             
             .new-year-wish {
-                font-size: 2rem;
+                font-size: 1.6rem;
             }
         }
-
-        /* Параллакс эффект для мыши */
-        .parallax-layer {
-            position: absolute;
-            will-change: transform;
-        }
-
-        /* Интерактивные эффекты при клике */
-        .click-effect {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            pointer-events: none;
-            animation: clickRipple 0.6s ease-out;
-            background: radial-gradient(circle, var(--primary), transparent);
-            transform: translate(-50%, -50%);
-        }
-
-        @keyframes clickRipple {
-            0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
-            100% { transform: translate(-50%, -50%) scale(10); opacity: 0; }
-        }
-
-        /* Звуковая визуализация */
-        .audio-wave {
-            display: none;
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 100px;
-            height: 50px;
-            z-index: 1000;
-        }
-
-        .wave-bar {
-            display: inline-block;
-            width: 6px;
-            margin: 0 2px;
-            background: linear-gradient(180deg, var(--primary), var(--secondary));
-            border-radius: 3px;
-            animation: wave 1s ease-in-out infinite;
-        }
-
-        @keyframes wave {
-            0%, 100% { height: 10px; }
-            50% { height: 40px; }
+        
+        /* Гарантия работы на iOS */
+        @supports (-webkit-touch-callout: none) {
+            .memory-card {
+                -webkit-transform: translateZ(0);
+                transform: translateZ(0);
+            }
+            
+            .modal {
+                -webkit-overflow-scrolling: touch;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Космический фон с частицами -->
-    <div id="space-bg"></div>
-    
-    <!-- Интерактивные частицы -->
-    <div class="particles-container" id="particles"></div>
-    
-    <!-- Интерактивный курсор -->
-    <div class="interactive-cursor" id="cursor"></div>
-    
     <!-- Загрузчик -->
     <div class="loader" id="loader">
-        <div class="loader-3d">
-            <div class="loader-spinner"></div>
-        </div>
-        <div class="loader-text">Запускаем вселенную воспоминаний...</div>
+        <div class="loader-spinner"></div>
+        <div class="loader-text">Загружаем воспоминания...</div>
     </div>
     
-    <div class="container-3d">
-        <div class="container">
-            <!-- 3D Герой-секция -->
-            <section class="hero-section">
-                <div class="hero-3d">
-                    <div class="floating-element"></div>
-                    <div class="floating-element"></div>
-                    <div class="floating-element"></div>
-                </div>
-                <div class="year">2025</div>
-                <h1 class="title">ВСЕЛЕННАЯ ВОСПОМИНАНИЙ</h1>
-                <p class="subtitle">Погружение в трехмерную реальность наших самых ярких моментов. Каждый пиксель дышит эмоциями.</p>
-            </section>
-            
-            <!-- 3D Коллаж воспоминаний -->
-            <section class="memories-grid" id="memoriesGrid">
-                <!-- Карточки будут сгенерированы через JavaScript -->
-            </section>
-            
-            <!-- Факты о нас в стиле 3D мессенджера -->
-            <section class="facts-section">
-                <div class="facts-3d">
-                    <div class="hologram"></div>
-                    <div class="hologram"></div>
-                </div>
-                <div class="facts-content">
-                    <h2 class="section-title">Факты о нас в 3D</h2>
-                    <div class="chat-container">
-                        <div class="chat-header">
-                            <div class="chat-avatar">МЫ</div>
-                            <div class="chat-info">
-                                <h3>Квантовый чат</h3>
-                                <p>Связь через пространство и время</p>
-                            </div>
-                        </div>
-                        <div class="chat-messages" id="chatMessages">
-                            <!-- Сообщения будут добавлены через JavaScript -->
-                        </div>
+    <div class="container">
+        <!-- Герой-секция -->
+        <section class="hero-section">
+            <div class="hero-glow"></div>
+            <h1 class="year">2025</h1>
+            <h2 class="title">НАШИ ВОСПОМИНАНИЯ</h2>
+            <p class="subtitle">Листайте вниз, чтобы увидеть наши лучшие моменты года. Нажмите на карточку, чтобы увидеть фото полностью.</p>
+        </section>
+        
+        <!-- Коллаж воспоминаний -->
+        <section class="memories-grid" id="memoriesGrid">
+            <!-- Карточки будут сгенерированы через JavaScript -->
+        </section>
+        
+        <!-- Факты о нас в стиле мессенджера -->
+        <section class="facts-section">
+            <h2 class="section-title">Наш чат</h2>
+            <div class="chat-container">
+                <div class="chat-header">
+                    <div class="chat-avatar">МЫ</div>
+                    <div class="chat-info">
+                        <h3>Наши сообщения</h3>
+                        <p>Только факты о нас</p>
                     </div>
                 </div>
-            </section>
-            
-            <!-- Интерактивная секция -->
-            <section class="interactive-section">
-                <button class="fireworks-btn" id="fireworksBtn">
-                    <i class="fas fa-magic"></i> АКТИВИРОВАТЬ ГИПЕРВЗРЫВ
-                </button>
-            </section>
-            
-            <!-- Пожелания в 3D -->
-            <section class="wishes-section">
-                <div class="wishes-glow"></div>
-                <div class="wishes-content">
-                    <h2 class="wishes-title">2026: НОВЫЕ ИЗМЕРЕНИЯ</h2>
-                    <div class="wishes-text">
-                        2025 год был червоточиной в пространстве-времени, где каждый момент искривлял реальность. Мы путешествовали между измерениями смеха, 
-                        любви и мечтаний, создавая голографическую карту наших сердец.
-                    </div>
-                    <div class="wishes-text">
-                        Пусть 2026 станет переходом в новое измерение — где гравитация не удерживает мечты, 
-                        а скорость света измеряется в улыбках. Желаю, чтобы ваша вселенная расширялась вместе со счастьем!
-                    </div>
-                    <div class="new-year-wish">В НОВОЕ ИЗМЕРЕНИЕ!</div>
-                    <div class="signature">Создано на квантовом уровне ❤️ madebytrifonov</div>
+                <div class="chat-messages" id="chatMessages">
+                    <!-- Сообщения будут добавлены через JavaScript -->
                 </div>
-            </section>
-            
-            <!-- Футер -->
-            <footer>
-                <div class="made-by">madebytrifonov</div>
-                <p>© 2025 Голографическая проекция воспоминаний. Все права защищены эмоциями.</p>
-            </footer>
-        </div>
+            </div>
+        </section>
+        
+        <!-- Интерактивная секция -->
+        <section class="interactive-section">
+            <button class="fireworks-btn" id="fireworksBtn">
+                <i class="fas fa-sparkles"></i> СДЕЛАТЬ СЮРПРИЗ
+            </button>
+        </section>
+        
+        <!-- Пожелания -->
+        <section class="wishes-section">
+            <h2 class="wishes-title">С НАСТУПАЮЩИМ 2026!</h2>
+            <div class="wishes-text">
+                2025 год был особенным. Мы создали столько прекрасных моментов, которые останутся с нами навсегда.
+                Каждая улыбка, каждый смех, каждое мгновение вместе — это наше сокровище.
+            </div>
+            <div class="wishes-text">
+                Пусть 2026 год принесёт ещё больше счастливых моментов, новых достижений и незабываемых впечатлений.
+                Пусть каждый день будет наполнен любовью, смехом и теплом!
+            </div>
+            <div class="new-year-wish">С НОВЫМ ГОДОМ!</div>
+            <div class="signature">С любовью ❤️ madebytrifonov</div>
+        </section>
+        
+        <!-- Футер -->
+        <footer>
+            <div class="made-by">madebytrifonov</div>
+            <p>© 2025 Наши воспоминания. Все моменты сохранены в сердцах.</p>
+        </footer>
     </div>
     
-    <!-- 3D Модальное окно -->
+    <!-- Модальное окно -->
     <div class="modal" id="photoModal">
         <div class="modal-content">
             <span class="modal-close" id="modalClose">&times;</span>
             <div class="modal-img-container">
-                <img class="modal-img" id="modalImg" src="" alt="Голографическое фото">
+                <img class="modal-img" id="modalImg" src="" alt="Фото">
             </div>
             <div class="modal-info">
-                <h2 class="modal-title" id="modalTitle">Квантовое воспоминание</h2>
-                <div class="modal-text" id="modalText">Загрузка описания...</div>
+                <h2 class="modal-title" id="modalTitle">Название</h2>
+                <div class="modal-text" id="modalText">Описание...</div>
             </div>
         </div>
     </div>
     
-    <!-- Звуковая визуализация -->
-    <div class="audio-wave" id="audioWave">
-        <div class="wave-bar"></div>
-        <div class="wave-bar"></div>
-        <div class="wave-bar"></div>
-        <div class="wave-bar"></div>
-        <div class="wave-bar"></div>
-        <div class="wave-bar"></div>
-        <div class="wave-bar"></div>
+    <!-- Индикатор акселерометра -->
+    <div class="motion-indicator" id="motionIndicator">
+        <i class="fas fa-mobile-alt"></i>
     </div>
     
     <!-- Скрипты -->
     <script>
-        // Данные для карточек
+        // Простые данные для карточек
         const memories = [
             {
                 id: 1,
-                title: "УТРЕННИЙ КВАНТ",
+                title: "Утренний вайб",
                 image: "images/1.jpeg",
                 description: "Мы хотели с тобой спать, но не хотели уходить друг от друга. Эти рассветные часы, когда весь мир спит, а мы делимся тишиной и теплом."
             },
             {
                 id: 2,
-                title: "ГИПЕРПРОСТРАНСТВО В МАШИНКЕ",
+                title: "Посиделки в машинке",
                 image: "images/2.jpeg", 
                 description: "Незабываемые и теплые посиделки до практически до самого утра, забавно то, что это одна из первых наших совместных фото. Машина превратилась в кинозал, кафе и психолога одновременно."
             },
             {
                 id: 3,
-                title: "ПЕРВЫЕ КВАНТОВЫЕ ЦВЕТЫ",
+                title: "Первые цветы",
                 image: "images/3.jpeg",
                 description: "Появление первых подснежников и ощущение приближающейся весны. Когда природа просыпается, а с ней и надежды на что-то новое, светлое."
             },
             {
                 id: 4,
-                title: "АЛКОТЕЛЕПОРТАЦИЯ",
+                title: "Первый алкотрип",
                 image: "images/4.png",
                 description: "Гуляли, как могли, открывали новые границы в твоих глазах. Каждый глоток — новая история, каждый смех — новая память."
             },
             {
                 id: 5,
-                title: "ШУБА? КВАНТОВЫЙ КРЕДИТ",
+                title: "ШУБА?",
                 image: "images/5.jpeg",
                 description: "Первый кредит, взятый у молодого человека... Когда желание выглядеть стильно победило финансовую логику. Но разве можно жалеть о таких моментах?"
             },
             {
                 id: 6,
-                title: "ТРЕВЕЛ ЧЕРЕЗ ИЗМЕРЕНИЯ",
+                title: "ТРЕВЕЛ ЗА ФОТО",
                 image: "images/6.jpeg",
                 description: "Здесь я увидел в тебе самую невероятную красоту. Не ту, что в зеркале, а ту, что светится изнутри, когда ты увлечена моментом."
             },
             {
                 id: 7,
-                title: "ДЕНЬ РОЖДЕНИЯ В 4D",
+                title: "День рождения",
                 image: "images/7.jpeg",
                 description: "Праздник с друзьями, подарки и торт со свечами. Очередной повод понять, что самые лучшие подарки — это люди рядом."
             },
             {
                 id: 8,
-                title: "СОВМЕСТНЫЕ МАСОЧКИ В МУЛЬТИВЕРСУМЕ",
+                title: "Совместные масочки",
                 image: "images/8.jpeg",
                 description: "Наши первые совместные масочки. Признаюсь, я хотел их захавать. Но вместо этого мы захавали пиццу под сериал."
             },
             {
                 id: 9,
-                title: "МОНАСТЫРЬ? ПАРАЛЛЕЛЬНАЯ РЕАЛЬНОСТЬ",
+                title: "Монастырь?",
                 image: "images/9.jpeg",
                 description: "Я все еще думаю над тем, чтобы сдать тебя в монастырь... Я посмотрел, условия хорошие. Тревл с твоей фамили."
             },
             {
                 id: 10,
-                title: "ПРЕДНОВОГОДНЯЯ СИНГУЛЯРНОСТЬ",
+                title: "Предновогодняя суета",
                 image: "images/10.jpeg",
                 description: "Подготовка к празднику, украшение ёлки и предвкушение чуда. Когда пахнет мандаринами, хвоей и надеждой."
             }
         ];
 
-        // Факты из вашего документа
+        // Факты
         const facts = [
             "Мы с тобой часто обсуждаем будущее, даже свадьбу.",
             "Ты думала, что выпросила у меня предложение, но я просто хотел сделать это красиво.",
@@ -1504,148 +847,10 @@
             "Ты шутила, что отрежешь мне письку, если я буду курить.",
             "Ты серьезно относишься к бюджету и советуешь сохранять чеки.",
             "Я ценю, что ты такая практичная и ответственная.",
-            "Мы с тобой можем болтать ни о чем целый вечер, и это не скучно.",
-            "Иногда мы используем в переписке спойлеры для личного.",
-            "Я быстро соглашался с тобой, чтобы не спорить по пустякам.",
-            "Ты говорила, что ненавидишь Новый Год из-за работы, и мне стало тебя жаль.",
-            "Я пытался тебя всегда подбодрить, когда ты устала.",
-            "Я ценю твое чувство юмора, даже когда оно немного сложное.",
-            "Мы с тобой можем быть очень прямыми и честными друг с другом.",
-            "Ты учишь меня разбираться в женских штучках.",
-            "Я стараюсь запоминать, что ты любишь, чтобы в дальнейшем покупать тебе эти вещи.",
-            "Наши разговоры могут начинаться с быта, а заканчиваться мечтами.",
-            "Ты просила не томить тебя и сразу отвечать на сообщения.",
-            "Я всегда стараюсь писать тебе, как только освобождаюсь.",
-            "Мы с тобой — команда, особенно когда что-то планируем.",
-            "Я готов поддерживать тебя во всем, даже в твоих дорогих кремах.",
-            "Мы с тобой можем посмеяться над одной и той же глупостью.",
-            "Ты не боишься показаться смешной или нелепой со мной.",
-            "Я тоже не боюсь выглядеть глупо в твоих глазах.",
-            "Наше общение — это не только слова, но и голосовые, видео, стикеры.",
-            "Ты часто первая пишешь мне утром.",
-            "Я просыпаюсь и сразу проверяю, не написала ли ты.",
-            "Ты доверяешь мне свои переживания, даже мелкие.",
-            "Я доверяю тебе свои мысли, даже глупые.",
-            "Ты умеешь мягко указать мне на мои ошибки.",
-            "Я стараюсь прислушиваться к твоим советам.",
-            "Мы с тобой создали свой маленький мир в переписке.",
-            "У нас есть свои шутки и понятные только нам фразы.",
-            "Ты проявляешь заботу, даже когда ругаешь меня за курение.",
-            "Ты делилась со мной видео других пар, которые тебя вдохновляют.",
-            "Мне приятно, что ты думаешь о нас, глядя на других.",
-            "Ты спрашивала, все ли у меня хорошо, если я пропадал.",
-            "Я тоже беспокоюсь о тебе, особенно когда ты на работе.",
-            "Мы с тобой — опора друг для друга.",
-            "Ты умеешь разрядить обстановку смешной фразой.",
-            "Я умею поддержать твою инициативу, даже если это съемки для TikTok.",
-            "Ты не заставляешь меня смотреть все твои видео, но я смотрю.",
-            "Я не заставляю тебя интересоваться моими техническими штуками, но ты слушаешь.",
-            "Ты заставляла купить мне плавки, и это было мило.",
-            "Я согласился, потому что мне нравится, когда ты выбираешь для меня вещи.",
-            "Мы можем говорить на любые темы, даже самые неудобные.",
-            "Я часто признаюсь в глупых поступках.",
-            "Мы принимаем друг друга такими.",
-            "Планирование с тобой будущего не пугает, а радует.",
-            "Ты учишь меня быть внимательнее к деталям.",
-            "Я учу тебя иногда отпускать контроль.",
-            "Даже когда ты злишься и пишешь \"Не беси меня\", я знаю, что это быстро пройдет.",
-            "Даже когда я веду себя как ребенок, ты терпеливо меня выслушиваешь.",
-            "Мы прощаем друг другу мелкие недостатки.",
-            "Мои \"Хорошо, солнце\" — это моя ласка для тебя.",
-            "Каждое сообщение, даже про тарталетки, — это кирпичик.",
-            "Мы еще только в начале нашего пути.",
-            "Но у нас уже есть общие ритуалы, планы и шутки.",
-            "Это самое ценное."
+            "Мы с тобой можем болтать ни о чем целый вечер, и это не скучно."
         ];
 
-        // Создание звездного фона
-        function createStarfield() {
-            const spaceBg = document.getElementById('space-bg');
-            for (let i = 0; i < 150; i++) {
-                const star = document.createElement('div');
-                star.className = 'star';
-                star.style.width = Math.random() * 3 + 1 + 'px';
-                star.style.height = star.style.width;
-                star.style.left = Math.random() * 100 + '%';
-                star.style.top = Math.random() * 100 + '%';
-                star.style.animationDelay = Math.random() * 5 + 's';
-                star.style.opacity = Math.random() * 0.7 + 0.3;
-                spaceBg.appendChild(star);
-            }
-        }
-
-        // Создание интерактивных частиц
-        function createParticles() {
-            const particlesContainer = document.getElementById('particles');
-            for (let i = 0; i < 50; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.top = Math.random() * 100 + '%';
-                particle.style.backgroundColor = getRandomColor();
-                particle.style.setProperty('--tx', (Math.random() * 200 - 100) + 'px');
-                particle.style.setProperty('--ty', (Math.random() * 200 - 100) + 'px');
-                particle.style.setProperty('--tz', (Math.random() * 200 - 100) + 'px');
-                particle.style.animationDelay = Math.random() * 10 + 's';
-                particle.style.animationDuration = Math.random() * 10 + 10 + 's';
-                particlesContainer.appendChild(particle);
-            }
-        }
-
-        function getRandomColor() {
-            const colors = ['#ff3366', '#33ccff', '#ffcc00', '#ff00ff', '#00ffff', '#00ff00'];
-            return colors[Math.floor(Math.random() * colors.length)];
-        }
-
-        // Интерактивный курсор
-        function initInteractiveCursor() {
-            const cursor = document.getElementById('cursor');
-            let mouseX = 0, mouseY = 0;
-            let cursorX = 0, cursorY = 0;
-            
-            document.addEventListener('mousemove', (e) => {
-                mouseX = e.clientX;
-                mouseY = e.clientY;
-            });
-            
-            function updateCursor() {
-                cursorX += (mouseX - cursorX) * 0.1;
-                cursorY += (mouseY - cursorY) * 0.1;
-                
-                cursor.style.left = cursorX + 'px';
-                cursor.style.top = cursorY + 'px';
-                
-                // Эффект при наведении на интерактивные элементы
-                const hoveredElement = document.elementFromPoint(mouseX, mouseY);
-                if (hoveredElement?.closest('.memory-card, .fireworks-btn, .message-content')) {
-                    cursor.style.transform = 'scale(2)';
-                    cursor.style.background = 'radial-gradient(circle, var(--neon-blue), transparent)';
-                } else {
-                    cursor.style.transform = 'scale(1)';
-                    cursor.style.background = 'radial-gradient(circle, var(--primary), transparent)';
-                }
-                
-                requestAnimationFrame(updateCursor);
-            }
-            
-            updateCursor();
-        }
-
-        // Эффект клика
-        function initClickEffects() {
-            document.addEventListener('click', (e) => {
-                const clickEffect = document.createElement('div');
-                clickEffect.className = 'click-effect';
-                clickEffect.style.left = e.clientX + 'px';
-                clickEffect.style.top = e.clientY + 'px';
-                clickEffect.style.backgroundColor = getRandomColor();
-                document.body.appendChild(clickEffect);
-                
-                setTimeout(() => clickEffect.remove(), 600);
-            });
-        }
-
-        // Создание карточек с 3D эффектами
+        // Создание карточек
         function createMemoryCards() {
             const grid = document.getElementById('memoriesGrid');
             grid.innerHTML = '';
@@ -1653,188 +858,108 @@
             memories.forEach((memory, index) => {
                 const card = document.createElement('div');
                 card.className = 'memory-card';
-                card.setAttribute('data-id', memory.id);
-                card.style.animationDelay = index * 0.1 + 's';
-                
-                const fallbackImages = [
-                    'https://images.unsplash.com/photo-1553531384-397c80973a8b?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-                    'https://images.unsplash.com/photo-1519681393784-d120267933ba?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-                    'https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-                    'https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-                    'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-                    'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-                    'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-                    'https://images.unsplash.com/photo-1494790108755-2616b786d4d1?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-                    'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-                    'https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'
-                ];
+                card.style.setProperty('--delay', index);
                 
                 card.innerHTML = `
-                    <div class="card-3d-effect"></div>
                     <img src="${memory.image}" class="card-image" alt="${memory.title}" 
-                         onerror="this.src='${fallbackImages[index % fallbackImages.length]}'">
+                         onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-${['1553531384-397c80973a8b', '1519681393784-d120267933ba', '1544551763-46a013bb70d5'][index % 3]}?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'">
                     <div class="card-content">
                         <div class="card-header">
                             <h3 class="card-title">${memory.title}</h3>
                             <div class="card-icon">
-                                <i class="fas fa-expand-arrows-alt"></i>
+                                <i class="fas fa-expand-alt"></i>
                             </div>
                         </div>
-                        <p class="card-text">${memory.description.substring(0, 140)}${memory.description.length > 140 ? '...' : ''}</p>
+                        <p class="card-text">${memory.description.substring(0, 100)}${memory.description.length > 100 ? '...' : ''}</p>
                     </div>
                 `;
                 
+                card.addEventListener('click', () => openModal(memory));
+                // Для мобильных - добавляем обработчик touch
+                card.addEventListener('touchstart', (e) => {
+                    e.preventDefault();
+                    card.style.transform = 'scale(0.98)';
+                });
+                card.addEventListener('touchend', () => {
+                    card.style.transform = 'scale(1)';
+                });
+                
                 grid.appendChild(card);
-                
-                // Обработчик клика с эффектом
-                card.addEventListener('click', () => {
-                    createRippleEffect(card);
-                    setTimeout(() => openModal(memory), 300);
-                });
-                
-                // Эффект при наведении
-                card.addEventListener('mouseenter', () => {
-                    card.querySelector('.card-icon').style.color = getRandomColor();
-                });
             });
         }
 
-        function createRippleEffect(element) {
-            const ripple = document.createElement('div');
-            ripple.style.cssText = `
-                position: absolute;
-                border-radius: 50%;
-                background: radial-gradient(circle, var(--primary), transparent);
-                transform: scale(0);
-                animation: ripple 0.6s linear;
-                pointer-events: none;
-                z-index: 10;
-            `;
-            
-            const rect = element.getBoundingClientRect();
-            const size = Math.max(rect.width, rect.height);
-            const x = rect.width / 2;
-            const y = rect.height / 2;
-            
-            ripple.style.width = ripple.style.height = size + 'px';
-            ripple.style.left = x - size / 2 + 'px';
-            ripple.style.top = y - size / 2 + 'px';
-            
-            element.appendChild(ripple);
-            
-            setTimeout(() => ripple.remove(), 600);
-        }
-
-        // Создание чата с 3D эффектами
+        // Создание чата
         function createChatMessages() {
             const chatMessages = document.getElementById('chatMessages');
             chatMessages.innerHTML = '';
             
-            const selectedFacts = [...facts]
-                .sort(() => Math.random() - 0.5)
-                .slice(0, 12);
-            
-            let delay = 0;
+            const selectedFacts = facts.slice(0, 8); // Берем первые 8 фактов
             
             selectedFacts.forEach((fact, index) => {
-                const message = document.createElement('div');
-                message.className = `message ${index % 2 === 0 ? 'message-right' : 'message-left'}`;
-                message.style.animationDelay = delay + 's';
-                
-                let icon = getIconForFact(fact);
-                const time = getRandomTime();
-                
-                message.innerHTML = `
-                    <div class="message-content">
-                        <i class="fas ${icon} message-icon"></i>
-                        ${fact}
-                        <span class="message-time">${time}</span>
-                    </div>
-                `;
-                
-                chatMessages.appendChild(message);
-                
-                // Эффект при клике на сообщение
-                message.addEventListener('click', () => {
-                    message.style.animation = 'messageFloat 0.5s ease';
-                    message.querySelector('.message-content').style.transform = 'translateZ(30px) scale(1.05)';
-                    setTimeout(() => {
-                        message.querySelector('.message-content').style.transform = 'translateZ(20px) scale(1)';
-                    }, 300);
-                });
-                
-                delay += 0.15;
-            });
-            
-            // Индикатор печати с 3D эффектом
-            setTimeout(() => {
-                const typingIndicator = document.createElement('div');
-                typingIndicator.className = 'typing-indicator';
-                typingIndicator.innerHTML = `
-                    <i class="fas fa-keyboard"></i>
-                    <div class="typing-dots">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </div>
-                `;
-                typingIndicator.style.animationDelay = delay + 's';
-                typingIndicator.style.opacity = '0';
-                typingIndicator.style.animation = 'messageFloat 0.5s ease ' + delay + 's forwards';
-                chatMessages.appendChild(typingIndicator);
-                
-                // Прокрутка
                 setTimeout(() => {
+                    const message = document.createElement('div');
+                    message.className = `message ${index % 2 === 0 ? 'message-right' : 'message-left'}`;
+                    message.style.animationDelay = `${index * 0.2}s`;
+                    
+                    const time = getRandomTime();
+                    const icon = getIconForFact(fact);
+                    
+                    message.innerHTML = `
+                        <div class="message-content">
+                            <i class="fas ${icon} message-icon"></i>
+                            ${fact}
+                            <span class="message-time">${time}</span>
+                        </div>
+                    `;
+                    
+                    chatMessages.appendChild(message);
+                    
+                    // Прокрутка вниз
                     chatMessages.scrollTop = chatMessages.scrollHeight;
-                }, delay * 1000 + 500);
-            }, 500);
+                }, index * 200);
+            });
         }
 
         function getIconForFact(fact) {
-            if (fact.includes('шутила') || fact.includes('юмора') || fact.includes('смешную')) return 'fa-laugh-beam';
-            if (fact.includes('будущее') || fact.includes('планируем') || fact.includes('свадьбу')) return 'fa-gem';
-            if (fact.includes('TikTok') || fact.includes('видео')) return 'fa-film';
-            if (fact.includes('сообщения') || fact.includes('переписке')) return 'fa-comments';
-            if (fact.includes('курить') || fact.includes('ругаешь')) return 'fa-smoking-ban';
-            if (fact.includes('работа') || fact.includes('магазине')) return 'fa-briefcase';
-            if (fact.includes('деньги') || fact.includes('бюджет')) return 'fa-money-bill-wave';
-            if (fact.includes('косметике') || fact.includes('кремах')) return 'fa-palette';
-            if (fact.includes('Зай') || fact.includes('солнце')) return 'fa-sun';
-            if (fact.includes('любишь') || fact.includes('нравится')) return 'fa-heart';
+            if (fact.includes('шутила') || fact.includes('юмора')) return 'fa-laugh';
+            if (fact.includes('будущее') || fact.includes('свадьбу')) return 'fa-heart';
+            if (fact.includes('TikTok') || fact.includes('видео')) return 'fa-video';
+            if (fact.includes('сообщения')) return 'fa-comment';
+            if (fact.includes('курить')) return 'fa-smoking-ban';
             return 'fa-star';
         }
 
         function getRandomTime() {
             const hours = Math.floor(Math.random() * 12) + 1;
             const minutes = Math.floor(Math.random() * 60);
-            const ampm = Math.random() > 0.5 ? 'PM' : 'AM';
-            return `${hours}:${minutes.toString().padStart(2, '0')} ${ampm}`;
+            return `${hours}:${minutes.toString().padStart(2, '0')}`;
         }
 
-        // Открытие модального окна с 3D эффектом
+        // Открытие модального окна - ПРОСТОЕ И РАБОЧЕЕ
         function openModal(memory) {
+            console.log('Opening modal for:', memory.title);
+            
             const modal = document.getElementById('photoModal');
             const modalImg = document.getElementById('modalImg');
             const modalTitle = document.getElementById('modalTitle');
             const modalText = document.getElementById('modalText');
             
+            // Показываем загрузку
             modalImg.src = '';
             modalImg.style.opacity = '0';
             
+            // Загружаем изображение
             const img = new Image();
             img.onload = function() {
+                console.log('Image loaded successfully');
                 modalImg.src = memory.image;
                 modalImg.style.opacity = '1';
-                modalImg.style.width = 'auto';
+                modalImg.style.width = '100%';
                 modalImg.style.height = 'auto';
             };
             img.onerror = function() {
-                const fallbackImages = [
-                    'https://images.unsplash.com/photo-1553531384-397c80973a8b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80',
-                    'https://images.unsplash.com/photo-1519681393784-d120267933ba?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80',
-                    'https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80'
-                ];
-                modalImg.src = fallbackImages[Math.floor(Math.random() * fallbackImages.length)];
+                console.log('Image failed to load, using fallback');
+                modalImg.src = 'https://images.unsplash.com/photo-1553531384-397c80973a8b?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80';
                 modalImg.style.opacity = '1';
             };
             img.src = memory.image;
@@ -1845,128 +970,7 @@
             modal.classList.add('active');
             document.body.style.overflow = 'hidden';
             
-            // Запуск звуковой визуализации
-            startAudioVisualization();
-        }
-
-        function startAudioVisualization() {
-            const audioWave = document.getElementById('audioWave');
-            audioWave.style.display = 'block';
-            
-            const bars = audioWave.querySelectorAll('.wave-bar');
-            bars.forEach((bar, index) => {
-                bar.style.animationDelay = index * 0.1 + 's';
-                bar.style.animationDuration = Math.random() * 0.5 + 0.8 + 's';
-            });
-        }
-
-        // Улучшенный фейерверк с 3D
-        function createFireworks() {
-            const colors = ['#ff3366', '#33ccff', '#ffcc00', '#ff00ff', '#00ffff', '#00ff00'];
-            
-            // Отключаем курсор для эффекта
-            const cursor = document.getElementById('cursor');
-            cursor.style.display = 'none';
-            
-            for (let i = 0; i < 20; i++) {
-                setTimeout(() => {
-                    const x = Math.random() * 90 + 5;
-                    const y = Math.random() * 80 + 10;
-                    const color = colors[Math.floor(Math.random() * colors.length)];
-                    
-                    createFireworkExplosion(x, y, color);
-                    
-                }, i * 150);
-            }
-            
-            setTimeout(() => {
-                cursor.style.display = 'block';
-            }, 3000);
-        }
-
-        function createFireworkExplosion(x, y, color) {
-            const center = document.createElement('div');
-            center.style.cssText = `
-                position: fixed;
-                width: 15px;
-                height: 15px;
-                border-radius: 50%;
-                background: ${color};
-                left: ${x}%;
-                top: ${y}%;
-                z-index: 999;
-                pointer-events: none;
-                box-shadow: 0 0 40px 15px ${color};
-                animation: firework3dCenter 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-            `;
-            
-            document.head.insertAdjacentHTML('beforeend', `
-                <style>
-                    @keyframes firework3dCenter {
-                        0% { transform: translate3d(0, 0, 0) scale(0); opacity: 1; }
-                        70% { opacity: 1; transform: translate3d(0, 0, 100px) scale(1); }
-                        100% { transform: translate3d(0, 0, 200px) scale(2); opacity: 0; }
-                    }
-                </style>
-            `);
-            
-            document.body.appendChild(center);
-            
-            // Частицы с 3D эффектом
-            for (let j = 0; j < 24; j++) {
-                createFireworkParticle(x, y, color, j);
-            }
-            
-            setTimeout(() => center.remove(), 1000);
-        }
-
-        function createFireworkParticle(x, y, color, index) {
-            const particle = document.createElement('div');
-            particle.style.cssText = `
-                position: fixed;
-                width: 8px;
-                height: 8px;
-                border-radius: 50%;
-                background: ${color};
-                left: ${x}%;
-                top: ${y}%;
-                z-index: 999;
-                pointer-events: none;
-                box-shadow: 0 0 20px 5px ${color};
-            `;
-            
-            document.body.appendChild(particle);
-            
-            const angle = (Math.PI * 2 * index) / 24;
-            const speed = Math.random() * 4 + 3;
-            const vx = Math.cos(angle) * speed;
-            const vy = Math.sin(angle) * speed;
-            const vz = (Math.random() - 0.5) * 3;
-            
-            let posX = x;
-            let posY = y;
-            let posZ = 0;
-            let opacity = 1;
-            
-            function animate() {
-                posX += vx;
-                posY += vy;
-                posZ += vz;
-                opacity -= 0.02;
-                
-                particle.style.left = `${posX}%`;
-                particle.style.top = `${posY}%`;
-                particle.style.opacity = opacity;
-                particle.style.transform = `translateZ(${posZ}px)`;
-                
-                if (opacity > 0) {
-                    requestAnimationFrame(animate);
-                } else {
-                    particle.remove();
-                }
-            }
-            
-            requestAnimationFrame(animate);
+            console.log('Modal should be visible now');
         }
 
         // Закрытие модального окна
@@ -1974,79 +978,129 @@
             const modal = document.getElementById('photoModal');
             modal.classList.remove('active');
             document.body.style.overflow = 'auto';
-            
-            const audioWave = document.getElementById('audioWave');
-            audioWave.style.display = 'none';
         }
 
-        // Инициализация
-        document.addEventListener('DOMContentLoaded', () => {
-            createStarfield();
-            createParticles();
+        // Простой фейерверк
+        function createFireworks() {
+            const colors = ['#ff3366', '#33ccff', '#ffcc00'];
             
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                    const x = Math.random() * 80 + 10;
+                    const y = Math.random() * 60 + 20;
+                    const color = colors[Math.floor(Math.random() * colors.length)];
+                    
+                    createFirework(x, y, color);
+                }, i * 300);
+            }
+        }
+
+        function createFirework(x, y, color) {
+            const firework = document.createElement('div');
+            firework.style.cssText = `
+                position: fixed;
+                width: 6px;
+                height: 6px;
+                border-radius: 50%;
+                background: ${color};
+                left: ${x}%;
+                top: ${y}%;
+                z-index: 999;
+                pointer-events: none;
+                box-shadow: 0 0 20px ${color};
+                animation: fireworkAnim 1s ease-out forwards;
+            `;
+            
+            document.head.insertAdjacentHTML('beforeend', `
+                <style>
+                    @keyframes fireworkAnim {
+                        0% { transform: scale(0); opacity: 1; }
+                        100% { transform: scale(10); opacity: 0; }
+                    }
+                </style>
+            `);
+            
+            document.body.appendChild(firework);
+            setTimeout(() => firework.remove(), 1000);
+        }
+
+        // Акселерометр для мобильных
+        function initMotionDetection() {
+            if ('DeviceMotionEvent' in window) {
+                const motionIndicator = document.getElementById('motionIndicator');
+                motionIndicator.style.display = 'flex';
+                
+                let lastX = 0;
+                let lastY = 0;
+                
+                window.addEventListener('devicemotion', (event) => {
+                    const x = event.accelerationIncludingGravity.x || 0;
+                    const y = event.accelerationIncludingGravity.y || 0;
+                    
+                    // Простой эффект наклона для карточек
+                    const cards = document.querySelectorAll('.memory-card');
+                    const tilt = Math.min(Math.max(x * 2, -10), 10);
+                    
+                    cards.forEach((card, index) => {
+                        const delay = index * 0.05;
+                        card.style.transform = `rotate(${tilt * 0.5}deg) translateY(${y * 0.5}px)`;
+                        card.style.transition = `transform ${0.3 + delay}s ease`;
+                    });
+                    
+                    lastX = x;
+                    lastY = y;
+                });
+            }
+        }
+
+        // Инициализация при загрузке
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('DOM loaded');
+            
+            // Быстро скрываем загрузчик
             setTimeout(() => {
                 document.getElementById('loader').classList.add('hidden');
+                console.log('Loader hidden');
                 
+                // Создаем контент
                 createMemoryCards();
                 createChatMessages();
-                initInteractiveCursor();
-                initClickEffects();
                 
-                // Обработчики событий
+                // Настраиваем обработчики
                 document.getElementById('fireworksBtn').addEventListener('click', createFireworks);
                 document.getElementById('modalClose').addEventListener('click', closeModal);
                 
+                // Закрытие по клику на фон
                 document.getElementById('photoModal').addEventListener('click', (e) => {
                     if (e.target === document.getElementById('photoModal')) {
                         closeModal();
                     }
                 });
                 
+                // Закрытие по ESC
                 document.addEventListener('keydown', (e) => {
-                    if (e.key === 'Escape') closeModal();
-                    if (e.key === ' ') createFireworks();
+                    if (e.key === 'Escape') {
+                        closeModal();
+                    }
                 });
                 
-                // Параллакс эффект для мыши
-                document.addEventListener('mousemove', (e) => {
-                    const x = (e.clientX / window.innerWidth - 0.5) * 20;
-                    const y = (e.clientY / window.innerHeight - 0.5) * 20;
-                    
-                    document.querySelector('.container-3d').style.transform = 
-                        `rotateX(${y}deg) rotateY(${x}deg)`;
-                });
-                
-            }, 2000);
-        });
-
-        // Эффект при скролле
-        window.addEventListener('scroll', () => {
-            const cards = document.querySelectorAll('.memory-card');
-            const windowHeight = window.innerHeight;
-            
-            cards.forEach((card, index) => {
-                const cardTop = card.getBoundingClientRect().top;
-                const progress = Math.max(0, Math.min(1, (windowHeight - cardTop) / windowHeight));
-                
-                if (progress > 0) {
-                    const depth = progress * 100;
-                    card.style.transform = `translate3d(0, 0, ${depth}px)`;
-                }
-            });
-        });
-
-        // Автоматическая анимация элементов
-        setInterval(() => {
-            const cards = document.querySelectorAll('.memory-card');
-            const randomCard = cards[Math.floor(Math.random() * cards.length)];
-            
-            if (randomCard && Math.random() > 0.7) {
-                randomCard.style.animation = 'cardEntrance 0.5s ease';
+                // Инициализируем акселерометр если доступен
                 setTimeout(() => {
-                    randomCard.style.animation = '';
-                }, 500);
+                    initMotionDetection();
+                }, 1000);
+                
+                console.log('All handlers set up');
+                
+            }, 1000);
+        });
+
+        // Обработка ошибок загрузки изображений
+        window.addEventListener('error', (e) => {
+            if (e.target.tagName === 'IMG') {
+                console.log('Image error:', e.target.src);
+                e.target.src = 'https://images.unsplash.com/photo-1553531384-397c80973a8b?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80';
             }
-        }, 3000);
+        }, true);
     </script>
 </body>
 </html>
